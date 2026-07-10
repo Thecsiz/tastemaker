@@ -1,0 +1,27 @@
+# License scope for the Tastemaker skill package
+
+This installable package contains material under two licenses.
+
+## MIT License
+
+The skill behavior and implementation files are licensed under `LICENSE-MIT`:
+
+- `SKILL.md`
+- `agents/`
+- `evals/`
+- `references/`
+- `scripts/`
+
+## Creative Commons Attribution 4.0 International
+
+The knowledge base and framework content under `kb/` are licensed under
+`LICENSE-CC-BY-4.0`.
+
+Unless another attribution is stated, attribution may be given as:
+
+> Tastemaker by Jason Csizmadi, licensed under CC BY 4.0.
+
+These licenses grant permissions only for material the copyright holder has
+the right to license. Third-party names, trademarks, quotations, and
+independently licensed material remain subject to their respective owners and
+terms.

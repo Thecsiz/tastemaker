@@ -1,0 +1,21 @@
+{
+  "version": "0.3",
+  "rubric": "ladder",
+  "ladder": ["correct", "coherent", "characterful", "convicted"],
+  "ceiling_setter": "TS-011",
+  "count": 12,
+  "ids": {
+    "TS-001": { "title": "The Inevitability Test", "category": "Point of View", "dimension": "character", "rung": "convicted", "path": "point-of-view/TS-001-the-inevitability-test.md" },
+    "TS-002": { "title": "Unused Tools as Strength", "category": "Restraint & Discipline", "dimension": "care", "rung": "coherent-to-convicted", "path": "restraint-discipline/TS-002-unused-tools-as-strength.md" },
+    "TS-003": { "title": "The One-Thing Rule", "category": "Hierarchy & Intent", "dimension": "clarity", "rung": "coherent", "path": "hierarchy-intent/TS-003-the-one-thing-rule.md" },
+    "TS-004": { "title": "Motion as Meaning", "category": "Material Honesty", "dimension": "coherence", "rung": "coherent", "path": "material-honesty/TS-004-motion-as-meaning.md" },
+    "TS-005": { "title": "Edge Cases as Opportunities", "category": "Detail Conviction", "dimension": "care", "rung": "coherent", "path": "detail-conviction/TS-005-edge-cases-as-opportunities.md" },
+    "TS-006": { "title": "Single Voice", "category": "System Thinking", "dimension": "coherence", "rung": "coherent", "path": "system-thinking/TS-006-single-voice.md" },
+    "TS-007": { "title": "Earned Density", "category": "Rhythm & Pacing", "dimension": "coherence", "rung": "coherent", "path": "rhythm-pacing/TS-007-earned-density.md" },
+    "TS-008": { "title": "Type as First Material", "category": "Typography as Voice", "dimension": "character", "rung": "characterful", "path": "typography-voice/TS-008-type-as-first-material.md" },
+    "TS-009": { "title": "Register-Stakes Match", "category": "Emotional Register", "dimension": "character", "rung": "characterful", "path": "emotional-register/TS-009-register-stakes-match.md" },
+    "TS-010": { "title": "Editing vs. Listing", "category": "Simplicity & Reduction", "dimension": "clarity", "rung": "coherent", "path": "simplicity-reduction/TS-010-editing-vs-listing.md" },
+    "TS-011": { "title": "Convention as the Tasteful Choice", "category": "Contextual Fit", "dimension": "care", "rung": "ceiling-setter", "role": "governor", "path": "contextual-fit/TS-011-convention-as-the-tasteful-choice.md" },
+    "TS-012": { "title": "Direct Manipulation as Material", "category": "Material Honesty", "dimension": "coherence", "rung": "coherent-to-characterful", "path": "material-honesty/TS-012-direct-manipulation-as-material.md" }
+  }
+}

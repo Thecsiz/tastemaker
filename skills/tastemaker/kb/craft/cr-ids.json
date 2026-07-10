@@ -1,0 +1,30 @@
+{
+  "version": "0.1",
+  "kb": "craft",
+  "lane": "A — measurable craft floor",
+  "dimensions": ["spacing-rhythm", "type-hierarchy", "color-contrast", "shadow-elevation", "alignment-grid", "density-balance"],
+  "consensus_grades": ["law", "strong", "heuristic", "one-opinion"],
+  "count": 20,
+  "ids": {
+    "CR-001": { "title": "Spacing Lives on a Scale", "dimension": "spacing-rhythm", "consensus": "strong", "path": "spacing-rhythm/CR-001-spacing-on-a-scale.md" },
+    "CR-002": { "title": "Proximity Groups Meaning", "dimension": "spacing-rhythm", "consensus": "strong", "path": "spacing-rhythm/CR-002-proximity-grouping.md" },
+    "CR-003": { "title": "Whitespace Before Borders", "dimension": "spacing-rhythm", "consensus": "strong", "path": "spacing-rhythm/CR-003-whitespace-before-borders.md" },
+    "CR-004": { "title": "Vertical Rhythm & Generous Defaults", "dimension": "spacing-rhythm", "consensus": "strong", "path": "spacing-rhythm/CR-004-vertical-rhythm.md" },
+    "CR-101": { "title": "Hierarchy via Weight & Color, Not Just Size", "dimension": "type-hierarchy", "consensus": "strong", "path": "type-hierarchy/CR-101-hierarchy-via-weight-color.md" },
+    "CR-102": { "title": "Cap the Type Scale", "dimension": "type-hierarchy", "consensus": "strong", "path": "type-hierarchy/CR-102-cap-the-sizes.md" },
+    "CR-103": { "title": "Readable Body: Size & Line Length", "dimension": "type-hierarchy", "consensus": "strong", "path": "type-hierarchy/CR-103-body-size-and-line-length.md" },
+    "CR-104": { "title": "Tracking by Size & Case", "dimension": "type-hierarchy", "consensus": "strong", "path": "type-hierarchy/CR-104-tracking-and-case.md" },
+    "CR-201": { "title": "Contrast Meets the Threshold", "dimension": "color-contrast", "consensus": "law", "path": "color-contrast/CR-201-contrast-thresholds.md" },
+    "CR-202": { "title": "Many Shades, No Pure Black", "dimension": "color-contrast", "consensus": "strong", "path": "color-contrast/CR-202-shades-and-no-pure-black.md" },
+    "CR-203": { "title": "One Accent, Reserved", "dimension": "color-contrast", "consensus": "strong", "path": "color-contrast/CR-203-one-accent-reserved.md" },
+    "CR-204": { "title": "Semantic Consistency & Perceptual Ramps", "dimension": "color-contrast", "consensus": "strong", "path": "color-contrast/CR-204-semantic-consistency-and-oklch.md" },
+    "CR-301": { "title": "One Light Source", "dimension": "shadow-elevation", "consensus": "law", "path": "shadow-elevation/CR-301-single-light-source.md" },
+    "CR-302": { "title": "Elevation Is a Ramp: Bigger + Softer + Lighter", "dimension": "shadow-elevation", "consensus": "strong", "path": "shadow-elevation/CR-302-elevation-ramp.md" },
+    "CR-303": { "title": "Layered, Tinted Shadows", "dimension": "shadow-elevation", "consensus": "strong", "path": "shadow-elevation/CR-303-layered-tinted-shadows.md" },
+    "CR-401": { "title": "Optical Over Mathematical Alignment", "dimension": "alignment-grid", "consensus": "strong", "path": "alignment-grid/CR-401-optical-over-mathematical.md" },
+    "CR-402": { "title": "One Strong Edge", "dimension": "alignment-grid", "consensus": "strong", "path": "alignment-grid/CR-402-one-strong-edge.md" },
+    "CR-403": { "title": "One Radius System", "dimension": "alignment-grid", "consensus": "strong", "path": "alignment-grid/CR-403-radius-system-consistency.md" },
+    "CR-501": { "title": "Density: Consistent and Context-Appropriate", "dimension": "density-balance", "consensus": "strong", "path": "density-balance/CR-501-consistent-appropriate-density.md" },
+    "CR-502": { "title": "Tension and Release", "dimension": "density-balance", "consensus": "heuristic", "path": "density-balance/CR-502-tension-and-release.md" }
+  }
+}

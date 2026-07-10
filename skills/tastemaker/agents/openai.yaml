@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tastemaker"
+  short_description: "Teach design craft and evaluate taste"
+  default_prompt: "Use $tastemaker to evaluate the craft, point of view, and context-appropriate taste ceiling of this design."

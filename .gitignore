@@ -1,0 +1,17 @@
+.DS_Store
+*.swp
+.claude/
+.playwright-mcp/
+.idea/
+.vscode/
+node_modules/
+npm-debug.log*
+
+# Local critique inputs and outputs
+report.json
+report.html
+tastemaker-report.html
+*.raw
+
+# Build staging
+.tmp/

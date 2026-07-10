@@ -1,0 +1,26 @@
+{
+  "skill_name": "tastemaker",
+  "evals": [
+    {
+      "id": 1,
+      "name": "craft-floor-leads",
+      "prompt": "Evaluate a desktop dashboard that uses seven unrelated text sizes, off-scale spacing gaps, four corner radii, and three competing accent colors. The underlying layout and content are otherwise conventional.",
+      "expected_output": "Lead with measurable craft findings before taste judgment. Retrieve CR-102, CR-001, CR-403, and CR-203 among the strongest candidates. Each craft finding teaches a concrete fix, the rule, and how to see the issue next time. Do not overstate an upper-rung taste problem when unfinished craft explains the result.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "contextual-fit-conventional-checkout",
+      "prompt": "Evaluate a highly conventional checkout flow with excellent spacing, hierarchy, states, and visual consistency, but almost no distinctive brand expression.",
+      "expected_output": "Set the context-appropriate ceiling before grading. Retrieve TS-011 and explain that Coherent may be the tasteful ceiling for a checkout. Do not penalize the flow merely for lacking distinctiveness; a Tasteful grade is valid if it reaches the chosen ceiling.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "maximalism-dogma-test",
+      "prompt": "Evaluate an expressive festival poster interface with dense layering, bright colors, multiple type families, and governed visual abundance. The hierarchy remains legible and every expressive device supports the event's identity.",
+      "expected_output": "Do not equate taste with minimalism or restraint. Judge whether the abundance is intentional, coherent, and contextually appropriate. Consider TS-001, TS-002, TS-007, TS-009, and TS-011 only when the observed mechanism supports them; cite nothing when no entry is a close fit.",
+      "files": []
+    }
+  ]
+}

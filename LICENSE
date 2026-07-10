@@ -1,0 +1,41 @@
+# License scope
+
+This repository is distributed under two licenses.
+
+## MIT License
+
+The following implementation material is licensed under the MIT License in
+`LICENSE-MIT`:
+
+- `skills/tastemaker/SKILL.md`
+- `skills/tastemaker/agents/`
+- `skills/tastemaker/evals/`
+- `skills/tastemaker/scripts/`
+- `skills/tastemaker/references/`
+- `scripts/`
+- `_tools/`
+- the viewer application shell in `index.html`
+
+## Creative Commons Attribution 4.0 International
+
+The following framework and documentation material is licensed under CC BY 4.0
+in `LICENSE-CC-BY-4.0`:
+
+- `skills/tastemaker/kb/`
+- `README.md`
+- `AGENTS.md`
+- knowledge-base content embedded in the generated `index.html`
+
+The packaged `skills/tastemaker.skill` archive contains files from both scopes.
+Each archived file retains the license assigned to its source path above, and
+the archive includes the scope map plus both full license texts.
+
+Unless another attribution is stated, attribution may be given as:
+
+> Tastemaker by Jason Csizmadi, licensed under CC BY 4.0.
+
+## Rights boundary
+
+These licenses grant permissions only for material the copyright holder has the
+right to license. Third-party names, trademarks, quotations, and independently
+licensed material remain subject to their respective owners and terms.

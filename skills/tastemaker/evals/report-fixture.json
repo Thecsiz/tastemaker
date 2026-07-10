@@ -1,0 +1,53 @@
+{
+  "title": "Subscription overview",
+  "subtitle": "A fixture for the public HTML renderer",
+  "brief": {
+    "surface": "Desktop account dashboard",
+    "audience": "People reviewing recurring costs",
+    "register": "Calm, clear, trustworthy",
+    "stakes": "Medium — recurring money movement",
+    "ceiling": "Characterful on overview; Coherent on confirmation"
+  },
+  "grade": "Competent",
+  "gradeNote": "Coherent craft with an underdeveloped typographic voice",
+  "input": "Synthetic validation fixture",
+  "craftScore": [
+    { "dim": "Spacing & rhythm", "status": "ok", "note": "Uses one visible scale." },
+    { "dim": "Type hierarchy", "status": "gap", "note": "Too many unrelated text tiers." },
+    { "dim": "Color & contrast", "status": "ok", "note": "Accent is reserved." },
+    { "dim": "Shadow & elevation", "status": "na", "note": "No elevation system is needed." },
+    { "dim": "Alignment & grid", "status": "ok", "note": "One strong content edge." },
+    { "dim": "Density & balance", "status": "ok", "note": "Density matches the task." }
+  ],
+  "findings": [
+    {
+      "kind": "craft",
+      "dimension": "Type hierarchy",
+      "crIds": ["CR-102"],
+      "consensus": "strong",
+      "title": "Seven sizes compete for four jobs",
+      "fix": "Collapse the surface to four intentional type roles.",
+      "rule": "A compact product surface rarely needs more than five sizes.",
+      "eye": "Squint and count how many visually different text tiers remain.",
+      "ref": "CR-102 — Cap the Type Scale"
+    },
+    {
+      "kind": "taste",
+      "type": "GAP",
+      "rung": "CHARACTERFUL",
+      "tsIds": ["TS-008"],
+      "title": "Typography organizes the page but does not yet voice it",
+      "verdict": "Fix: choose one display decision that belongs to this product.",
+      "whatISee": "The type system is orderly but generic.",
+      "whyTaste": "The overview should carry more identity than the confirmation step.",
+      "judgment": "The screen reaches Coherent and stops one rung below its ceiling.",
+      "fixProtect": ["Give the account total a specific typographic voice."],
+      "ref": "TS-008 — Type as First Material"
+    }
+  ],
+  "verdict": {
+    "reached": "Reached Coherent; ceiling is Characterful.",
+    "climb": "Make one typographic decision that could only belong to this product.",
+    "protect": "Keep the calm density and reserved accent system."
+  }
+}
