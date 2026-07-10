@@ -2,16 +2,36 @@
 
 An AI design-critique skill that teaches the measurable craft floor and evaluates the taste above it.
 
-Tastemaker answers two different questions:
+[**Browse the 32-entry knowledge base →**](https://thecsiz.github.io/tastemaker/) · [Download the installable skill](https://github.com/Thecsiz/tastemaker/raw/refs/heads/main/skills/tastemaker.skill)
+
+## What it is
+
+Tastemaker is an evaluation and teaching system for design craft and judgment. It answers two connected questions:
 
 1. **Is this well made?** Spacing, type, color, shadow, alignment, and density are evaluated against concrete craft rules.
 2. **Is this good?** Point of view, coherence, character, conviction, and contextual fit are evaluated as design judgment.
 
-It is intentionally an evaluation tool. It does not generate a replacement design, enforce a brand system, validate product strategy, or perform a full usability and accessibility audit.
+It has three parts:
+
+- **The skill** runs critiques in Claude Code or Codex.
+- **The knowledge base** contains 20 measurable craft rules and 12 taste principles, each with a stable citable ID.
+- **The outputs** can stay in chat, become critique cards inside Figma, or render as a self-contained HTML report.
+
+It does not generate a replacement design, enforce a brand system, validate product strategy, or perform a full usability and accessibility audit.
+
+## How it works
+
+1. Share a screenshot, Figma flow, live page, source file, or description.
+2. Tastemaker establishes the brief: surface, audience, register, stakes, and the appropriate taste ceiling.
+3. It evaluates the measurable craft floor and teaches specific fixes through `CR-NNN` rules.
+4. It evaluates coherence, character, conviction, and contextual fit through `TS-NNN` principles.
+5. It gives an overall grade, explains the climb to the next rung, and protects the decisions already working.
+
+Every citation must resolve to a real entry in the bundled knowledge base. When no entry supports a finding closely enough, Tastemaker states the finding without inventing a citation.
 
 ## Why it exists
 
-AI design tools are good at producing interfaces, but generation does not answer whether the result is disciplined, intentional, or appropriate for its context. Tastemaker provides the missing evaluation and teaching loop:
+AI design tools can produce interfaces quickly, but generation does not answer whether the result is disciplined, intentional, or appropriate for its context. Tastemaker provides the missing evaluation and teaching loop:
 
 - identify the measurable craft problems;
 - explain the rule behind each fix;
@@ -130,7 +150,11 @@ $tastemaker Evaluate this design: [attach or describe the design]
 
 The bundled `agents/openai.yaml` supplies Codex-facing display metadata. The critique workflow and KB are shared with Claude Code.
 
-## How the knowledge base works
+## Explore the 32-entry knowledge base
+
+[**Open the browsable knowledge base →**](https://thecsiz.github.io/tastemaker/)
+
+The viewer exposes the same Markdown entries and validator registries shipped with the skill. You can search by ID, title, or tag; filter craft and taste entries; and open the complete rule or principle without installing anything.
 
 The installed skill contains two citable layers:
 
@@ -144,8 +168,6 @@ Each run follows the same retrieval sequence:
 3. Inspect the taste rungs and route judgment findings to candidate `TS-NNN` principles.
 4. Read the complete candidate entries, including when-to-flex guidance.
 5. Cite an ID only when it exists in `cr-ids.json` or `ts-ids.json`; otherwise state the finding without inventing a citation.
-
-Browse all 32 entries at [thecsiz.github.io/tastemaker](https://thecsiz.github.io/tastemaker/). The viewer is generated directly from the same Markdown and validator files shipped with the skill.
 
 ## Repository map
 
