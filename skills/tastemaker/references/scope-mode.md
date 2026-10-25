@@ -16,7 +16,7 @@ Follow the steps in order.
 
 1. **Brief.** Establish surface, audience, register and stakes as in the standard workflow, plus **the one-sentence reason the product exists**. If the user cannot state it, that is the first finding, and it outranks everything else on the list.
 2. **Core interaction.** Name the one thing the product must do exceptionally, as a verb phrase ("capture a thought in under two seconds"). If there are two, the product has two cores and that is a finding.
-3. **Load rankings.** Read the shared TR entries that apply. If the project has a house profile (`tastemaker-house.md` at the project root, or a path the user gives), read it. House rankings outrank shared ones for this project, and the output says which layer decided.
+3. **Load rankings and history.** Read the shared TR entries that apply. If the project has a house profile (`tastemaker-house.md` at the project root, or a path the user gives), read it; house rankings outrank shared ones for this project, and the output says which layer decided. If the project has a cut log (`tastemaker-cuts.md`), read it: a proposal that brings back something already cut, or a verdict that contradicts an earlier one, is a finding. Raise any Defer whose revisit date or trigger has arrived.
 4. **Classify each item** against the core:
    - **Serves the core:** makes the core interaction faster, clearer, deeper or more reliable.
    - **Competes with the core:** takes attention, screen space, craft budget or conceptual load from it.

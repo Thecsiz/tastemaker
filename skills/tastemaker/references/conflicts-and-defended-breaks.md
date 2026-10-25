@@ -10,11 +10,11 @@ When two principles pull in opposite directions on the same region or decision, 
 
 ```
 ### [Finding-NN] [Narrative hook]: [what collides]
-`CONFLICT` · TS-NNN vs. TS-NNN · decided by TR-NNN (seed) | H-TR-NNN | no ranking on file
+`CONFLICT` · [principle or pressure] vs. [principle or pressure] · decided by TR-NNN (seed) | H-TR-NNN | no ranking on file
 
 > *Verdict: [which principle yields here, in one sentence]*
 
-**The collision:** [what each principle asks for on this specific surface, with the observation that shows it.]
+**The collision:** [what each side asks for on this specific surface, with the observation that shows it. A side can be a TS principle, a pressure (stakeholder parity, brand expression), or a proposed feature against the core.]
 
 **Decided by:** [the ranking and why it applies here. Name the layer: shared KB or house profile.]
 
@@ -22,12 +22,12 @@ When two principles pull in opposite directions on the same region or decision, 
 
 **Flip condition:** [what would have to be true for the other principle to win. One sentence.]
 
-**KB Reference:** TS-NNN · TS-NNN · TR-NNN
+**KB Reference:** TS-NNN · TR-NNN
 ```
 
 ### Rules
 
-- Name the conflict only when both principles genuinely apply to the same decision. Two unrelated findings on one screen are not a conflict.
+- Name the conflict only when both sides genuinely apply to the same decision. Two unrelated findings on one screen are not a conflict.
 - Cite a ranking only if it exists in `kb/tradeoffs/tr-ids.json` or in the project's house profile. A seed ranking is cited with `(seed)`.
 - **No ranking on file:** state the conflict, make the call on its merits, mark it `no ranking on file`, and log a candidate in the coverage note: `[no TR entry: candidate "X over Y"]`. Never invent a ranking ID.
 - Apply the same ranking the same way every time the same conflict appears in one critique. Inconsistent rulings within a single review are a defect.
@@ -63,9 +63,9 @@ Use the taste finding shape with the `DEFENDED` eyebrow:
 
 ```
 ### [Finding-NN] [Narrative hook]: [the principle broken, on purpose]
-`DEFENDED` · `CONVICTED` · TS-NNN broken for TR-NNN | H-TR-NNN | stated intent
+`DEFENDED` · [evidence tier: intent only | ranking held on surface | ranking held across system] · TS-NNN broken for TR-NNN | H-TR-NNN | stated intent
 
-> *Verdict: Protect it. [One sentence on why the break is the decision.]*
+> *Verdict: Protect it. [One sentence on why the break is the decision, and what it does to the grade: no lift for intent only; toward Convicted for a held ranking.]*
 
 **What I see:** [the break, and where it recurs consistently]
 **Why it holds:** [the ranking it serves, and the benefit visible on screen]

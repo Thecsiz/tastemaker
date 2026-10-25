@@ -28,14 +28,14 @@ Every product has a core interaction: the thing a user does most, or the thing t
 
 Breadth is seductive because it is visible on a roadmap and easy to count. Depth is invisible until it is missing. When AI tools make each additional feature cheap, the pull toward breadth gets stronger and this ranking matters more. The scarce resource is no longer the ability to build. It is attention, coherence and the care to finish one thing completely.
 
-The cost accepted is a shorter feature list and lost deals with users who wanted the missing breadth. Products that hold this ranking are often criticized as "limited" and loved by the users they kept.
+The cost accepted is a shorter feature list and lost deals with users who wanted the missing breadth. A product that holds this ranking will be called limited by the users it turned away. That is the trade, made on purpose.
 
 ## How to Spot the Conflict
 
 - A roadmap or scope list adds features while the core interaction still has rough edges, missing states or unfinished motion.
 - The product cannot be described by a single verb.
 - Polish is spread evenly across many surfaces, so no surface feels finished.
-- In scope mode: items that sit beside the core rather than serving it are competing for the same craft budget.
+- In scope mode: items classified as competing with the core, and items that sit beside it, both draw on craft budget the core still needs.
 
 Cite TR-005, name the core interaction, and defer the items that sit beside it.
 
@@ -55,5 +55,5 @@ Cite TR-005, name the core interaction, and defer the items that sit beside it.
 
 ## Sources
 
-- Steve Jobs, 1997 Apple Worldwide Developers Conference: focus as saying no to good ideas.
+- Steve Jobs, closing Q&A at Apple's Worldwide Developers Conference, May 1997, on focus as saying no to good ideas (paraphrased).
 - Enables TS-001 (The Inevitability Test); complements TS-005 (Edge Cases as Opportunities) and TS-012 (Direct Manipulation as Material).

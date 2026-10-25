@@ -7,7 +7,7 @@ description: "Evaluates whether a design is well made, has taste, and should exi
 
 A KB-grounded methodology that **teaches the measurable craft floor and evaluates the taste altitude above it** — the whole climb a designer makes from "tighten your spacing" to "commit to a point of view." Where `/ux-critique` asks "can the user succeed?", tastemaker asks two stacked questions: **"is this well-made?"** (craft — taught, measurable) and **"is this good?"** (taste — evaluated, judgment).
 
-Two knowledge bases, one ladder: **`CR-NNN` craft rules** (spacing, type, color, shadow, alignment, density — the teachable floor) and **`TS-NNN` taste principles** (point of view, conviction — the judgment altitude). A *tastemaker* makes taste, and you make taste by getting the craft right first, then developing the judgment on top. This tool walks both.
+Two knowledge bases climb one ladder: **`CR-NNN` craft rules** (spacing, type, color, shadow, alignment, density — the teachable floor) and **`TS-NNN` taste principles** (point of view, conviction — the judgment altitude). A *tastemaker* makes taste, and you make taste by getting the craft right first, then developing the judgment on top. This tool walks both.
 
 A third layer turns those values into a point of view: **`TR-NNN` ranked trade-offs**, phrased "X over Y, even when Y wins locally." Rankings decide what yields when two principles collide on one surface, and what to cut when a proposal competes with the product's core. That adds two more questions: **"which principle wins here?"** and, before anything is built, **"should this exist?"** When building is cheap, the scarce judgment moves upstream of the artifact. A critic that only sees what was built cannot see what was correctly left out.
 
@@ -17,7 +17,7 @@ A third layer turns those values into a point of view: **`TR-NNN` ranked trade-o
 
 ### Scope: this evaluates the TASTE layer, on TWO assumed floors
 
-This is a deliberate, declared boundary — not a blind spot. Tastemaker evaluates how *well an idea is realized*; it assumes two things are already true and judges the taste layer on top of them:
+This is a deliberate, declared boundary — not a blind spot. The critique evaluates how *well an idea is realized*; it assumes two things are already true and judges the taste layer on top of them:
 
 1. **The design works** (the usability/accessibility floor — the "Correct" rung). Tastemaker does **not** evaluate whether users can complete tasks, whether contrast/screen-reader/keyboard access pass, or whether the design is learnable — that's `/ux-critique`'s domain.
 2. **The design is worth building** (the strategy floor — the right problem, a real idea). Tastemaker does **not** evaluate whether the underlying concept solves a real market need, or whether it's a genuine innovation versus a polished synthesis of existing patterns — that's product strategy / problem-definition, upstream of taste *and* of usability.
@@ -84,7 +84,7 @@ Tastemaker reads from **three bundled local knowledge bases**. Resolve every pat
 
 - **Taste principles — `TS-NNN`** (the judgment layer, Characterful → Convicted): root `kb/`, layout `{category-dir}/TS-NNN-slug.md`. Validate against `kb/ts-ids.json`.
 - **Craft rules — `CR-NNN`** (the measurable layer, the Coherent floor): root `kb/craft/`, layout `{dimension-dir}/CR-NNN-slug.md`. Validate against `kb/craft/cr-ids.json`. Index + schema at `kb/craft/_index.md`.
-- **Ranked trade-offs — `TR-NNN`** (the decision layer, governs conflicts and cuts): root `kb/tradeoffs/`, layout `TR-NNN-slug.md`. Validate against `kb/tradeoffs/tr-ids.json`. Index + schema at `kb/tradeoffs/_index.md`. Seed rankings are cited with `(seed)`, the way craft findings carry a consensus grade.
+- **Ranked trade-offs, `TR-NNN`** (the decision layer, governs conflicts and cuts): root `kb/tradeoffs/`, layout `TR-NNN-slug.md`. Validate against `kb/tradeoffs/tr-ids.json`. Index + schema at `kb/tradeoffs/_index.md`. Seed rankings are cited with `(seed)`, the way craft findings carry a consensus grade.
 - **How to read:** resolve the installed skill directory, then read the relative entry path declared by the matching validator JSON.
 - **The division of labor:** **CR rules are *taught*** (a finding = a measurable fix + the rule + how to see it next time). **TS principles are *evaluated*** (a finding = a judgment about whether the design is good). The rung decides which KB a finding comes from — the rungs keep craft precise and taste judgmental even though they live in one tool.
 - **Cross-references:** an entry may mention an optional `UX-NNN` usability principle. Treat it as context only unless a separate usability KB is available and the user asks for that pass.
@@ -159,7 +159,7 @@ The 11 taste **categories** are the taxonomy; each maps onto a rung. Validate ag
 
 Note the shape the runs predicted: **most entries cluster at the Coherent rung** — that's where most work stalls and where most taste findings live. The Convicted rung is sparse and precious (only TS-001 sits there purely), which matches the finding that conviction is the rarest and strongest taste signal.
 
-### Rankings (TR-NNN — decide, across rungs)
+### Rankings (TR-NNN: decide, across rungs)
 
 5 ranked trade-offs, validated against `kb/tradeoffs/tr-ids.json`. A ranking does not sit on a rung; it decides between principles that do. All five ship as **seed**.
 
@@ -168,7 +168,7 @@ Note the shape the runs predicted: **most entries cluster at the Coherent rung**
 | TR-001 | System Consistency over In-Context Discoverability | Where a capability lives across surfaces |
 | TR-002 | Editing over Completeness | TS-010 vs. TS-007 |
 | TR-003 | One Primary Action over Parity of Options | TS-003 vs. pressure for equal weight |
-| TR-004 | Convention over Expression on High-Stakes, Low-Frequency Tasks | TS-011 vs. TS-008 / TS-009 |
+| TR-004 | Convention over Expression on High-Stakes, Low-Frequency Tasks | TS-011 vs. TS-008 and brand expression |
 | TR-005 | Depth on the Core Interaction over Breadth of Features | Where the polish budget goes; scope cuts |
 
 ---
@@ -304,7 +304,7 @@ Surface the most consequential findings — a mix of **craft fixes** (lower rung
 - A **strength** — something working to protect and understand *why*, OR
 - A **gap** — craft (a measurable fix) or taste (a judgment with a path)
 
-Merge findings that share a root cause. In broad mode aim for 3–5 of the most consequential across both layers; in targeted mode (user named a dimension) up to 7 in that area.
+Merge findings that share a root cause. In broad mode aim for 3–5 of the most consequential across all layers; in targeted mode (user named a dimension) up to 7 in that area.
 
 ### Step 4: KB lookup (cite-or-skip) — route by rung
 
@@ -367,12 +367,12 @@ This part is non-negotiable; it's what makes this teach, not just lint.]
 - **Lead with craft findings** when they're the highest-leverage (usually they are — the floor everything stands on), then the taste findings.
 - A craft finding is almost always a **GAP** (a fix) or a **STRENGTH** ("this dimension is tight ✓"); it doesn't carry a STRENGTH/GAP severity word in the eyebrow — `CRAFT · DIMENSION · CR-NNN` is enough.
 
-### Conflict and defended-break findings (rankings — `TR-NNN`)
+### Conflict and defended-break findings (rankings, `TR-NNN`)
 
 Two more shapes, specified in full in [`references/conflicts-and-defended-breaks.md`](references/conflicts-and-defended-breaks.md):
 
-- **Conflict:** eyebrow `CONFLICT · TS-NNN vs. TS-NNN · decided by TR-NNN (seed) | H-TR-NNN | no ranking on file`; sections **The collision**, **Decided by**, **The call**, **Flip condition**.
-- **Defended break:** eyebrow `DEFENDED · CONVICTED · TS-NNN broken for TR-NNN | H-TR-NNN | stated intent`; sections **What I see**, **Why it holds**, **Protect**.
+- **Conflict:** eyebrow `CONFLICT · [principle or pressure] vs. [principle or pressure] · decided by TR-NNN (seed) | H-TR-NNN | no ranking on file`; sections **The collision**, **Decided by**, **The call**, **Flip condition**.
+- **Defended break:** eyebrow `DEFENDED · [evidence tier] · TS-NNN broken for TR-NNN | H-TR-NNN | stated intent`; sections **What I see**, **Why it holds**, **Protect**.
 
 Place conflict findings after craft and before the remaining taste findings: they decide what the taste findings should ask for.
 
@@ -391,6 +391,7 @@ After the findings, close with:
 5. **What to protect** — the strongest decision already present (craft or taste), so it survives the next iteration.
 6. **Coverage note** — which findings cited real CR/TS/TR entries, which flagged candidates, every conflict and the layer that decided it (shared or house).
 7. **The masking caveat** (always, on any positive-leaning verdict): *"This assesses craft and taste — not whether the design works (usability/accessibility — run `/ux-critique`) or whether it's worth building (strategy, upstream). A tight, tasteful design can still be the wrong thing, or unusable."*
+   In scope mode, use this variant: *"This judges whether each item serves the product's own stated purpose and core interaction. It does not judge market demand, revenue, or whether the business should make the bet."*
 
 ---
 

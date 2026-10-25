@@ -37,11 +37,12 @@ With a single screenshot, say that system mode needs more than one surface, and 
 
 **Held under pressure:** [the clearest cases where a ranking cost something and held]
 
-**System grade:** [Tasteful · Competent · Unrealized, judged on consistency of rankings across the system]
+**System grade:** [Tasteful · Competent · Unrealized, using the standard definitions applied across the system]
 ```
 
 ## Grading
 
+- **Use the standard grade definitions** (craft floor plus rung reached against the ceiling), applied across the system: a craft failure on any surface still counts. Ranking consistency is the system-level evidence for the upper rungs; a system whose rankings break unevenly cannot claim Convicted, however strong single screens look.
 - **Inconsistency is the main signal of missing conviction.** A ranking held on four surfaces and broken on the fifth is weaker than a ranking held on all five, even if the fifth break looks better locally.
 - A consistent break that serves a higher ranking is a defended break (`references/conflicts-and-defended-breaks.md`), not a violation.
 - The context ceiling applies per surface. A system can be Tasteful with conventional checkout surfaces and expressive identity surfaces, as long as each reaches its own ceiling and the rankings hold.

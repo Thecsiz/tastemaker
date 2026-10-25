@@ -24,7 +24,12 @@ const FIXED_TIME = new Date("2020-01-01T00:00:00Z");
 
 function listFiles(dir, base = dir) {
   const out = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+  // Byte order, not locale order, and no dotfiles (Finder's .DS_Store is gitignored
+  // and must never reach the archive).
+  const entries = fs.readdirSync(dir, { withFileTypes: true })
+    .filter(entry => !entry.name.startsWith("."))
+    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+  for (const entry of entries) {
     const abs = path.join(dir, entry.name);
     if (entry.isDirectory()) out.push(...listFiles(abs, base));
     else out.push(path.relative(base, abs));
@@ -36,7 +41,10 @@ function build(target) {
   if (fs.existsSync(target)) fs.rmSync(target);
   const stage = fs.mkdtempSync(path.join(os.tmpdir(), "tastemaker-stage-"));
   try {
-    fs.cpSync(SKILL_DIR, path.join(stage, SKILL_NAME), { recursive: true });
+    fs.cpSync(SKILL_DIR, path.join(stage, SKILL_NAME), {
+      recursive: true,
+      filter: src => !path.basename(src).startsWith("."),
+    });
     const files = listFiles(stage);
     for (const file of files) {
       const abs = path.join(stage, file);

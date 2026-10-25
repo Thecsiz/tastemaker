@@ -138,6 +138,7 @@ const trIds = validateRegistry(path.join(TRADEOFFS, "tr-ids.json"), TRADEOFFS, "
 const tsRegistry = JSON.parse(read(path.join(KB, "ts-ids.json")));
 const crRegistry = JSON.parse(read(path.join(CRAFT, "cr-ids.json")));
 const trRegistry = JSON.parse(read(path.join(TRADEOFFS, "tr-ids.json")));
+const TR_RELATION_TYPES = ["enforces", "decides-for", "decides-against", "bounds", "bounded-by", "complements", "enables"];
 
 // Ranked trade-offs: status, consensus, and the principles each ranking decides between.
 for (const [id, meta] of Object.entries(trRegistry.ids || {})) {
@@ -145,8 +146,16 @@ for (const [id, meta] of Object.entries(trRegistry.ids || {})) {
   if (!(trRegistry.consensus_grades || []).includes(meta.consensus)) fail(`${id} has unknown consensus ${meta.consensus}`);
   if (!meta.prefers || !meta.over) fail(`${id} must name what it prefers and what it ranks over`);
   for (const ts of meta.resolves || []) if (!tsIds.has(ts)) fail(`${id} resolves unknown ${ts}`);
-  const fm = frontmatter(read(path.join(TRADEOFFS, meta.path)));
-  if (fm && fm.status !== meta.status) fail(`${id} frontmatter status ${fm.status} differs from registry ${meta.status}`);
+  const entryFile = meta.path ? path.join(TRADEOFFS, meta.path) : null;
+  if (!entryFile || !fs.existsSync(entryFile)) continue; // already reported by validateRegistry
+  const raw = read(entryFile);
+  const fm = frontmatter(raw) || {};
+  for (const key of ["status", "consensus", "prefers", "over"]) {
+    if (fm[key] !== meta[key]) fail(`${id} frontmatter ${key} "${fm[key]}" differs from registry "${meta[key]}"`);
+  }
+  for (const match of raw.matchAll(/^\s+type:\s*([\w-]+)/gm)) {
+    if (!TR_RELATION_TYPES.includes(match[1])) fail(`${id} uses unknown related type ${match[1]}`);
+  }
 }
 ok(`TR rankings · statuses, grades, and resolved principles check out`);
 
@@ -156,24 +165,30 @@ for (const file of textFiles) {
   const raw = read(file);
   for (const id of raw.match(/TS-\d{3}/g) || []) if (!tsIds.has(id)) fail(`${rel(file)} cites unknown ${id}`);
   for (const id of raw.match(/CR-\d{3}/g) || []) if (!crIds.has(id)) fail(`${rel(file)} cites unknown ${id}`);
-  for (const id of raw.match(/(?<!H-)TR-\d{3}/g) || []) if (!trIds.has(id)) fail(`${rel(file)} cites unknown ${id}`);
+  for (const id of raw.match(/(?<![A-Za-z0-9_]|H-)TR-\d{3}/g) || []) if (!trIds.has(id)) fail(`${rel(file)} cites unknown ${id}`);
 }
 ok("all numeric CR/TS/TR citations resolve");
 
 // Stated counts and ID ranges must match the registries. Prose drifts; the registries don't.
 const prefixIds = { CR: crIds, TS: tsIds, TR: trIds };
 const tsCategories = new Set(Object.values(tsRegistry.ids).map(meta => meta.category)).size;
+// Counts may be digits or words ("six dimensions"). The lookbehind stops an ID such as
+// "CR-102 craft rules" from reading as a count of 102.
+const NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+  "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"];
+const N = `((?<![\\w-])\\d+|\\b(?:${NUMBER_WORDS.join("|")}))`;
+const toNumber = word => (/^\d+$/.test(word) ? Number(word) : NUMBER_WORDS.indexOf(word.toLowerCase()));
 const countRules = [
-  { re: /(\d+)\s+(?:measurable\s+)?(?:craft|CR)\s+rules/gi, expected: crIds.size, label: "craft rules" },
+  { re: new RegExp(`${N}\\s+(?:measurable\\s+)?(?:craft|CR)\\s+rules`, "gi"), expected: crIds.size, label: "craft rules" },
   { re: /`?CR-NNN`?,\s*(\d+)\s+entries/g, expected: crIds.size, label: "CR entries" },
-  { re: /(\d+)\s+`(?:CR|TS|TR)-NNN`\s+(?:rules|principles|rankings|entries)/g, expected: null, label: "entries" },
-  { re: /(\d+)\s+(?:taste|TS)\s+principles/gi, expected: tsIds.size, label: "taste principles" },
+  { re: new RegExp(`${N}\\s+\`(?:CR|TS|TR)-NNN\`\\s+(?:rules|principles|rankings|entries)`, "gi"), expected: null, label: "entries" },
+  { re: new RegExp(`${N}\\s+(?:taste|TS)\\s+principles`, "gi"), expected: tsIds.size, label: "taste principles" },
   { re: /`?TS-NNN`?,\s*(\d+)\s+entries/g, expected: tsIds.size, label: "TS entries" },
-  { re: /(\d+)\s+(?:ranked\s+)?trade-offs/gi, expected: trIds.size, label: "trade-offs" },
+  { re: new RegExp(`${N}\\s+(?:ranked\\s+)?trade-offs`, "gi"), expected: trIds.size, label: "trade-offs" },
   { re: /`?TR-NNN`?,\s*(\d+)\s+entries/g, expected: trIds.size, label: "TR entries" },
-  { re: /(\d+)-entry\b/g, expected: crIds.size + tsIds.size + trIds.size, label: "total KB entries" },
-  { re: /(\d+)\s+(?:taste\s+)?categories/gi, expected: tsCategories, label: "taste categories" },
-  { re: /(\d+)\s+(?:craft\s+)?dimensions/gi, expected: crRegistry.dimensions.length, label: "craft dimensions" },
+  { re: new RegExp(`${N}-entry\\b`, "gi"), expected: crIds.size + tsIds.size + trIds.size, label: "total KB entries" },
+  { re: new RegExp(`${N}\\s+(?:taste\\s+)?categories`, "gi"), expected: tsCategories, label: "taste categories" },
+  { re: new RegExp(`${N}\\s+(?:craft\\s+)?dimensions`, "gi"), expected: crRegistry.dimensions.length, label: "craft dimensions" },
 ];
 const proseFiles = [
   path.join(ROOT, "README.md"), path.join(ROOT, "AGENTS.md"),
@@ -188,21 +203,33 @@ for (const file of proseFiles) {
       // A null expectation reads the prefix from the match itself ("20 `CR-NNN` rules").
       const prefix = rule.expected === null ? match[0].match(/(CR|TS|TR)-NNN/)[1] : null;
       const expected = prefix ? prefixIds[prefix].size : rule.expected;
-      if (Number(match[1]) !== expected) {
+      if (toNumber(match[1]) !== expected) {
         countMismatches++;
         fail(`${rel(file)} says "${match[0]}"; registries have ${expected} ${prefix ? prefix + " " : ""}${rule.label}`);
       }
     }
   }
-  // A range like CR-401…403 must list exactly the registry IDs in that hundred block.
-  for (const match of raw.matchAll(/\b(CR|TS|TR)-(\d{3})(?:…|\.\.\.)(\d{3})\b/g)) {
-    const [, prefix, startRaw, endRaw] = match;
-    const start = Number(startRaw), end = Number(endRaw), block = Math.floor(start / 100);
-    const inBlock = [...prefixIds[prefix]].map(id => Number(id.slice(3))).filter(n => Math.floor(n / 100) === block).sort((a, b) => a - b);
-    const expected = inBlock.length ? `${prefix}-${String(inBlock[0]).padStart(3, "0")}…${String(inBlock.at(-1)).padStart(3, "0")}` : "no entries";
-    if (!inBlock.length || inBlock[0] !== start || inBlock.at(-1) !== end || inBlock.length !== end - start + 1) {
-      countMismatches++;
-      fail(`${rel(file)} lists range ${match[0]}; registry has ${expected}`);
+  // Every ID inside a stated range must exist. In a table row (an index listing a whole
+  // dimension), the range must also cover the full registry block, so "CR-401…402"
+  // cannot silently drop CR-403. Prose may cite a legitimate sub-range.
+  for (const line of raw.split(/\r?\n/)) {
+    for (const match of line.matchAll(/\b(CR|TS|TR)-(\d{3})(?:…|\.\.\.)(\d{3})\b/g)) {
+      const [, prefix, startRaw, endRaw] = match;
+      const start = Number(startRaw), end = Number(endRaw), block = Math.floor(start / 100);
+      const known = new Set([...prefixIds[prefix]].map(id => Number(id.slice(3))));
+      const missing = [];
+      for (let n = start; n <= end; n++) if (!known.has(n)) missing.push(`${prefix}-${String(n).padStart(3, "0")}`);
+      if (missing.length) {
+        countMismatches++;
+        fail(`${rel(file)} lists range ${match[0]}, but ${missing.join(", ")} not in the registry`);
+        continue;
+      }
+      if (!line.trimStart().startsWith("|")) continue;
+      const inBlock = [...known].filter(n => Math.floor(n / 100) === block).sort((a, b) => a - b);
+      if (inBlock[0] !== start || inBlock.at(-1) !== end) {
+        countMismatches++;
+        fail(`${rel(file)} table lists ${match[0]}; registry block is ${prefix}-${String(inBlock[0]).padStart(3, "0")}…${String(inBlock.at(-1)).padStart(3, "0")}`);
+      }
     }
   }
 }
@@ -297,7 +324,7 @@ if (fs.existsSync(ARCHIVE)) {
   const listing = run("unzip", ["-Z1", ARCHIVE]);
   if (listing.status === 0) {
     const actual = listing.stdout.split(/\r?\n/).filter(Boolean).filter(item => !item.endsWith("/")).sort();
-    const expected = walk(SKILL).map(file => path.relative(path.dirname(SKILL), file)).sort();
+    const expected = walk(SKILL).filter(file => !path.basename(file).startsWith(".")).map(file => path.relative(path.dirname(SKILL), file)).sort();
     if (JSON.stringify(actual) !== JSON.stringify(expected)) fail("skills/tastemaker.skill file list differs from skills/tastemaker/");
     for (const required of ["tastemaker/LICENSE", "tastemaker/LICENSE-MIT", "tastemaker/LICENSE-CC-BY-4.0", "tastemaker/SKILL.md"]) {
       if (!actual.includes(required)) fail(`Archive is missing ${required}`);

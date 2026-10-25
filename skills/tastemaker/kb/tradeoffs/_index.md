@@ -32,7 +32,7 @@ tags: [...]
 resolves: the conflict this ranking decides
 related:
   - id: TS-NNN
-    type: enforces | decides-for | decides-against | bounds | complements | enables
+    type: enforces | decides-for | decides-against | bounds | bounded-by | complements | enables
 ---
 ```
 
@@ -54,7 +54,7 @@ related:
 | TR-001 | System Consistency over In-Context Discoverability | Placement across surfaces (TS-006, TS-010, TS-011) | seed | strong |
 | TR-002 | Editing over Completeness | TS-010 vs. TS-007 | seed | strong |
 | TR-003 | One Primary Action over Parity of Options | TS-003 vs. pressure for equal weight | seed | strong |
-| TR-004 | Convention over Expression on High-Stakes, Low-Frequency Tasks | TS-011 vs. TS-008 and TS-009 | seed | strong |
+| TR-004 | Convention over Expression on High-Stakes, Low-Frequency Tasks | TS-011 vs. TS-008 and brand expression | seed | strong |
 | TR-005 | Depth on the Core Interaction over Breadth of Features | Where the polish budget goes (TS-001, TS-005, TS-012) | seed | heuristic |
 
 ---

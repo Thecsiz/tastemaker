@@ -41,7 +41,7 @@ Name the conflict, cite TR-002, and say which items should move behind disclosur
 
 ## Exemplars
 
-**Consumer-warm (opinionated task apps).** Task managers known for restraint ship fewer views and fewer fields than their competitors and say so openly. Users who need everything go elsewhere; users who stay get a tool that never asks them to sort through options they do not use.
+**Consumer-warm (opinionated task apps).** Task managers known for restraint ship fewer views and fewer fields than their competitors. Users who need everything go elsewhere; users who stay get a tool that never asks them to sort through options they do not use.
 
 **Editorial (the front page).** A front page is the purest editing exercise in design. Every story is newsworthy; a handful get placement. The value of the page is the ranking itself.
 
@@ -56,5 +56,5 @@ Name the conflict, cite TR-002, and say which items should move behind disclosur
 ## Sources
 
 - Dieter Rams, "Good design is as little design as possible."
-- Steve Jobs, 1997 Apple Worldwide Developers Conference: focus as saying no to good ideas, not only bad ones.
+- Steve Jobs, closing Q&A at Apple's Worldwide Developers Conference, May 1997, on focus as saying no to good ideas (paraphrased).
 - Decides between TS-010 (Editing vs. Listing) and TS-007 (Earned Density); complements TS-002 (Unused Tools as Strength).

@@ -1,7 +1,7 @@
 {
   "version": "0.1",
   "kb": "tradeoffs",
-  "lane": "C — ranked trade-offs that decide principle conflicts",
+  "lane": "C: ranked trade-offs that decide principle conflicts",
   "form": "X over Y, even when Y wins locally",
   "statuses": ["seed", "established"],
   "consensus_grades": ["strong", "heuristic", "one-opinion"],
@@ -10,7 +10,7 @@
     "TR-001": { "title": "System Consistency over In-Context Discoverability", "prefers": "system consistency", "over": "in-context discoverability", "status": "seed", "consensus": "strong", "resolves": ["TS-006", "TS-010", "TS-011"], "path": "TR-001-system-consistency-over-in-context-discoverability.md" },
     "TR-002": { "title": "Editing over Completeness", "prefers": "editing", "over": "completeness", "status": "seed", "consensus": "strong", "resolves": ["TS-010", "TS-007"], "path": "TR-002-editing-over-completeness.md" },
     "TR-003": { "title": "One Primary Action over Parity of Options", "prefers": "one primary action", "over": "parity of options", "status": "seed", "consensus": "strong", "resolves": ["TS-003", "TS-010"], "path": "TR-003-one-primary-action-over-parity-of-options.md" },
-    "TR-004": { "title": "Convention over Expression on High-Stakes, Low-Frequency Tasks", "prefers": "convention", "over": "expression", "status": "seed", "consensus": "strong", "resolves": ["TS-011", "TS-008", "TS-009"], "path": "TR-004-convention-over-expression-on-high-stakes-tasks.md" },
+    "TR-004": { "title": "Convention over Expression on High-Stakes, Low-Frequency Tasks", "prefers": "convention", "over": "expression", "status": "seed", "consensus": "strong", "resolves": ["TS-011", "TS-008"], "path": "TR-004-convention-over-expression-on-high-stakes-tasks.md" },
     "TR-005": { "title": "Depth on the Core Interaction over Breadth of Features", "prefers": "depth on the core interaction", "over": "breadth of features", "status": "seed", "consensus": "heuristic", "resolves": ["TS-001", "TS-005", "TS-012"], "path": "TR-005-depth-on-the-core-over-breadth-of-features.md" }
   }
 }

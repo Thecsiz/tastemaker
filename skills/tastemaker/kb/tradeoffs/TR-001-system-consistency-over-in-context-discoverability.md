@@ -28,7 +28,7 @@ The pull toward in-context placement is local and constant. Every team can argue
 
 The cost this ranking accepts is real: some users will not find a capability on the first try, because it lives in its home rather than beside them. The ranking pays that cost once, in exchange for a system that teaches itself. After a user learns where one kind of thing lives, they know where every thing of that kind lives. That compounding predictability is worth more than any single surface's convenience.
 
-This is the decision behind the iOS split between an app's own minimal settings and the system Settings app. It is invisible in any single screenshot. It only shows up when you look across the whole system and notice that the line was drawn once and then held.
+The split between an app's own settings and a platform's system Settings is an example of this kind of line. It is invisible in any single screenshot. It only shows up when you look across the whole system and notice that the line was drawn once and then held.
 
 ## How to Spot the Conflict
 
@@ -41,7 +41,7 @@ When this conflict shows up, cite TR-001 and say which home the capability belon
 
 ## Exemplars
 
-**Consumer platform (iOS Settings).** Apps keep frequently changed, task-adjacent options inside the app and send rarely changed configuration to the system Settings app. The split frustrates discovery at the margins and has been held anyway, because the payoff is a platform where users know where configuration lives.
+**Consumer platform (system settings).** Apple's guidance puts task-specific options in the screens they affect, sends only the most rarely changed options to the system Settings app, and asks apps to respect systemwide settings rather than include redundant versions of them. The second part is this ranking: a system-level preference has one home, and an app does not ship its own private copy. The first part is this ranking's flip condition, below.
 
 **Developer-tool craft (command palettes).** Tools built around a single command palette route every action through one predictable entry point. Some actions are a keystroke farther away than a dedicated button would be. In exchange, a user who learns the palette can reach everything, and new features arrive without new chrome.
 
@@ -55,6 +55,6 @@ When this conflict shows up, cite TR-001 and say which home the capability belon
 
 ## Sources
 
-- Apple Human Interface Guidelines, Settings: guidance to keep frequently changed options in the app and rarely changed ones in system settings.
+- Apple Human Interface Guidelines, Settings: task-specific options belong in the screens they affect; the most rarely changed options can go to system Settings; respect systemwide settings and avoid including redundant versions of them.
 - Jakob Nielsen, "10 Usability Heuristics for User Interface Design," heuristic 4 (consistency and standards).
 - Enforces TS-006 (Single Voice) at system scale; bounded by TS-011 (Convention as the Tasteful Choice) where platform convention sets the home.
