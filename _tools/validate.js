@@ -10,6 +10,7 @@ const ROOT = path.resolve(__dirname, "..");
 const SKILL = path.join(ROOT, "skills", "tastemaker");
 const KB = path.join(SKILL, "kb");
 const CRAFT = path.join(KB, "craft");
+const TRADEOFFS = path.join(KB, "tradeoffs");
 const ARCHIVE = path.join(ROOT, "skills", "tastemaker.skill");
 const errors = [];
 const checks = [];
@@ -75,8 +76,11 @@ function hasReservedPrivateMarker(raw) {
 for (const required of [
   "SKILL.md", "agents/openai.yaml", "LICENSE", "LICENSE-MIT", "LICENSE-CC-BY-4.0",
   "references/figma-output-mode.md", "references/artifact-output-mode.md",
+  "references/scope-mode.md", "references/system-mode.md",
+  "references/conflicts-and-defended-breaks.md", "references/house-profiles.md",
   "scripts/taste-cards.js", "scripts/build-report.js", "evals/evals.json",
   "evals/report-fixture.json", "kb/ts-ids.json", "kb/craft/cr-ids.json",
+  "kb/tradeoffs/tr-ids.json", "kb/tradeoffs/_index.md",
 ]) exists(path.join(SKILL, required));
 
 const skillRaw = read(path.join(SKILL, "SKILL.md"));
@@ -130,21 +134,91 @@ function validateRegistry(registryFile, entryRoot, prefix) {
 
 const tsIds = validateRegistry(path.join(KB, "ts-ids.json"), KB, "TS");
 const crIds = validateRegistry(path.join(CRAFT, "cr-ids.json"), CRAFT, "CR");
+const trIds = validateRegistry(path.join(TRADEOFFS, "tr-ids.json"), TRADEOFFS, "TR");
+const tsRegistry = JSON.parse(read(path.join(KB, "ts-ids.json")));
+const crRegistry = JSON.parse(read(path.join(CRAFT, "cr-ids.json")));
+const trRegistry = JSON.parse(read(path.join(TRADEOFFS, "tr-ids.json")));
+
+// Ranked trade-offs: status, consensus, and the principles each ranking decides between.
+for (const [id, meta] of Object.entries(trRegistry.ids || {})) {
+  if (!(trRegistry.statuses || []).includes(meta.status)) fail(`${id} has unknown status ${meta.status}`);
+  if (!(trRegistry.consensus_grades || []).includes(meta.consensus)) fail(`${id} has unknown consensus ${meta.consensus}`);
+  if (!meta.prefers || !meta.over) fail(`${id} must name what it prefers and what it ranks over`);
+  for (const ts of meta.resolves || []) if (!tsIds.has(ts)) fail(`${id} resolves unknown ${ts}`);
+  const fm = frontmatter(read(path.join(TRADEOFFS, meta.path)));
+  if (fm && fm.status !== meta.status) fail(`${id} frontmatter status ${fm.status} differs from registry ${meta.status}`);
+}
+ok(`TR rankings · statuses, grades, and resolved principles check out`);
+
+// House-profile IDs (H-TR-NNN) are project-local and excluded from KB citation checks.
 const textFiles = walk(SKILL).filter(file => /\.(md|json|js|yaml)$/.test(file));
 for (const file of textFiles) {
   const raw = read(file);
   for (const id of raw.match(/TS-\d{3}/g) || []) if (!tsIds.has(id)) fail(`${rel(file)} cites unknown ${id}`);
   for (const id of raw.match(/CR-\d{3}/g) || []) if (!crIds.has(id)) fail(`${rel(file)} cites unknown ${id}`);
+  for (const id of raw.match(/(?<!H-)TR-\d{3}/g) || []) if (!trIds.has(id)) fail(`${rel(file)} cites unknown ${id}`);
 }
-ok("all numeric CR/TS citations resolve");
+ok("all numeric CR/TS/TR citations resolve");
+
+// Stated counts and ID ranges must match the registries. Prose drifts; the registries don't.
+const prefixIds = { CR: crIds, TS: tsIds, TR: trIds };
+const tsCategories = new Set(Object.values(tsRegistry.ids).map(meta => meta.category)).size;
+const countRules = [
+  { re: /(\d+)\s+(?:measurable\s+)?(?:craft|CR)\s+rules/gi, expected: crIds.size, label: "craft rules" },
+  { re: /`?CR-NNN`?,\s*(\d+)\s+entries/g, expected: crIds.size, label: "CR entries" },
+  { re: /(\d+)\s+`(?:CR|TS|TR)-NNN`\s+(?:rules|principles|rankings|entries)/g, expected: null, label: "entries" },
+  { re: /(\d+)\s+(?:taste|TS)\s+principles/gi, expected: tsIds.size, label: "taste principles" },
+  { re: /`?TS-NNN`?,\s*(\d+)\s+entries/g, expected: tsIds.size, label: "TS entries" },
+  { re: /(\d+)\s+(?:ranked\s+)?trade-offs/gi, expected: trIds.size, label: "trade-offs" },
+  { re: /`?TR-NNN`?,\s*(\d+)\s+entries/g, expected: trIds.size, label: "TR entries" },
+  { re: /(\d+)-entry\b/g, expected: crIds.size + tsIds.size + trIds.size, label: "total KB entries" },
+  { re: /(\d+)\s+(?:taste\s+)?categories/gi, expected: tsCategories, label: "taste categories" },
+  { re: /(\d+)\s+(?:craft\s+)?dimensions/gi, expected: crRegistry.dimensions.length, label: "craft dimensions" },
+];
+const proseFiles = [
+  path.join(ROOT, "README.md"), path.join(ROOT, "AGENTS.md"),
+  path.join(ROOT, "scripts", "build-kb-viewer.js"),
+  ...walk(SKILL).filter(file => /\.md$/.test(file) && !/\/(?:CR|TS|TR)-\d{3}[^/]*\.md$/.test(file)),
+];
+let countMismatches = 0;
+for (const file of proseFiles) {
+  const raw = read(file);
+  for (const rule of countRules) {
+    for (const match of raw.matchAll(rule.re)) {
+      // A null expectation reads the prefix from the match itself ("20 `CR-NNN` rules").
+      const prefix = rule.expected === null ? match[0].match(/(CR|TS|TR)-NNN/)[1] : null;
+      const expected = prefix ? prefixIds[prefix].size : rule.expected;
+      if (Number(match[1]) !== expected) {
+        countMismatches++;
+        fail(`${rel(file)} says "${match[0]}"; registries have ${expected} ${prefix ? prefix + " " : ""}${rule.label}`);
+      }
+    }
+  }
+  // A range like CR-401…403 must list exactly the registry IDs in that hundred block.
+  for (const match of raw.matchAll(/\b(CR|TS|TR)-(\d{3})(?:…|\.\.\.)(\d{3})\b/g)) {
+    const [, prefix, startRaw, endRaw] = match;
+    const start = Number(startRaw), end = Number(endRaw), block = Math.floor(start / 100);
+    const inBlock = [...prefixIds[prefix]].map(id => Number(id.slice(3))).filter(n => Math.floor(n / 100) === block).sort((a, b) => a - b);
+    const expected = inBlock.length ? `${prefix}-${String(inBlock[0]).padStart(3, "0")}…${String(inBlock.at(-1)).padStart(3, "0")}` : "no entries";
+    if (!inBlock.length || inBlock[0] !== start || inBlock.at(-1) !== end || inBlock.length !== end - start + 1) {
+      countMismatches++;
+      fail(`${rel(file)} lists range ${match[0]}; registry has ${expected}`);
+    }
+  }
+}
+if (!countMismatches) ok(`stated counts and ID ranges match registries · ${crIds.size} CR · ${tsIds.size} TS · ${trIds.size} TR`);
 
 // Eval surface.
 const evals = JSON.parse(read(path.join(SKILL, "evals", "evals.json")));
 if (evals.skill_name !== "tastemaker") fail("evals/evals.json has the wrong skill_name");
-if (!Array.isArray(evals.evals) || evals.evals.length < 3) fail("evals/evals.json must include at least three cases");
+if (!Array.isArray(evals.evals) || evals.evals.length < 9) fail("evals/evals.json must include at least nine cases");
 else {
   const names = new Set(evals.evals.map(item => item.name));
-  for (const expected of ["craft-floor-leads", "contextual-fit-conventional-checkout", "maximalism-dogma-test"]) {
+  for (const expected of [
+    "craft-floor-leads", "contextual-fit-conventional-checkout", "maximalism-dogma-test",
+    "conflict-consistency", "scope-cuts-against-core", "scope-forcing-rule",
+    "defended-vs-sloppy-break", "system-planted-inconsistency", "house-ranking-outranks-shared",
+  ]) {
     if (!names.has(expected)) fail(`Missing retrieval eval: ${expected}`);
   }
   ok(`eval suite · ${evals.evals.length} cases`);
@@ -179,8 +253,8 @@ if (report.status === 0 && fs.existsSync(reportOut)) {
 // Generated viewer must be current and contain valid JavaScript.
 run(process.execPath, ["scripts/build-kb-viewer.js", "--check"]);
 const viewer = read(path.join(ROOT, "index.html"));
-if (!viewer.includes('"craftCount":20') || !viewer.includes('"tasteCount":12')) {
-  fail("index.html does not contain the expected 20 craft + 12 taste counts");
+for (const [key, count] of [["craftCount", crIds.size], ["tasteCount", tsIds.size], ["tradeoffCount", trIds.size]]) {
+  if (!viewer.includes(`"${key}":${count}`)) fail(`index.html ${key} does not match the registry (${count})`);
 }
 const scriptMatches = [...viewer.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 if (!scriptMatches.length) fail("index.html has no inline script");

@@ -1,6 +1,6 @@
 ---
 name: tastemaker
-description: "Evaluates whether a design is well made and has taste. Use when a designer asks 'does this have taste', 'is this good design', 'why does this look off', 'is the craft solid', 'does this have a point of view', or shares a screenshot, Figma URL, live page, file path, or description for critique beyond basic correctness. Teaches the measurable craft floor—spacing, type, color, shadow, alignment, and density—through CR-NNN rules with fixes and eye-training, then evaluates coherence, character, conviction, and contextual fit through TS-NNN principles. Produces chat critiques, optional Figma cards, or local HTML reports. Does not replace usability, accessibility, product-strategy, or brand-compliance review."
+description: "Evaluates whether a design is well made, has taste, and should exist. Use when a designer asks 'does this have taste', 'why does this look off', 'is the craft solid', 'does this have a point of view', or 'what should I cut', or shares a screenshot, Figma URL, live page, file path, description, feature list, or roadmap for critique. Teaches the craft floor (spacing, type, color, shadow, alignment, density) through CR-NNN rules, evaluates coherence, character, conviction, and contextual fit through TS-NNN principles, and decides principle conflicts and scope cuts through TR-NNN ranked trade-offs. Modes: critique, scope (pre-build cut list), and system (conviction across many surfaces). Produces chat critiques, cut lists, optional Figma cards, or local HTML reports. Does not replace usability, accessibility, market-strategy, or brand-compliance review."
 ---
 
 # Tastemaker — the whole ladder
@@ -8,6 +8,8 @@ description: "Evaluates whether a design is well made and has taste. Use when a 
 A KB-grounded methodology that **teaches the measurable craft floor and evaluates the taste altitude above it** — the whole climb a designer makes from "tighten your spacing" to "commit to a point of view." Where `/ux-critique` asks "can the user succeed?", tastemaker asks two stacked questions: **"is this well-made?"** (craft — taught, measurable) and **"is this good?"** (taste — evaluated, judgment).
 
 Two knowledge bases, one ladder: **`CR-NNN` craft rules** (spacing, type, color, shadow, alignment, density — the teachable floor) and **`TS-NNN` taste principles** (point of view, conviction — the judgment altitude). A *tastemaker* makes taste, and you make taste by getting the craft right first, then developing the judgment on top. This tool walks both.
+
+A third layer turns those values into a point of view: **`TR-NNN` ranked trade-offs**, phrased "X over Y, even when Y wins locally." Rankings decide what yields when two principles collide on one surface, and what to cut when a proposal competes with the product's core. That adds two more questions: **"which principle wins here?"** and, before anything is built, **"should this exist?"** When building is cheap, the scarce judgment moves upstream of the artifact. A critic that only sees what was built cannot see what was correctly left out.
 
 **The point of view.** **Taste is the act of deciding. No, not that, over and over, until what's left feels intentional. Its opposite isn't ugly design. It's design with no decisions in it: the default, the template, the safe choice that offends no one and says nothing.** This is tastemaker's spine, held with conviction (full statement: [`kb/_manifesto.md`](kb/_manifesto.md)). Taste is *deciding*, not a particular look. So the tool is fierce about *whether you decided* and neutral about *what you decided*: maximalism and minimalism both pass if they committed; only the undecided design fails. ("Intentionality" is the practitioner-consensus word for this — Pablo Stanley and others — and deliberately less class-loaded than "taste.")
 
@@ -18,9 +20,11 @@ Two knowledge bases, one ladder: **`CR-NNN` craft rules** (spacing, type, color,
 This is a deliberate, declared boundary — not a blind spot. Tastemaker evaluates how *well an idea is realized*; it assumes two things are already true and judges the taste layer on top of them:
 
 1. **The design works** (the usability/accessibility floor — the "Correct" rung). Tastemaker does **not** evaluate whether users can complete tasks, whether contrast/screen-reader/keyboard access pass, or whether the design is learnable — that's `/ux-critique`'s domain.
-2. **The design is worth building** (the strategy floor — the right problem, a real idea). Tastemaker does **not** evaluate whether the underlying concept should exist, whether it solves a real need, or whether it's a genuine innovation versus a polished synthesis of existing patterns — that's product strategy / problem-definition, upstream of taste *and* of usability.
+2. **The design is worth building** (the strategy floor — the right problem, a real idea). Tastemaker does **not** evaluate whether the underlying concept solves a real market need, or whether it's a genuine innovation versus a polished synthesis of existing patterns — that's product strategy / problem-definition, upstream of taste *and* of usability.
 
-In short: tastemaker judges *how well an idea is realized*, not *whether the idea was worth realizing* (strategy) or *whether it works* (usability). A design can score **Tasteful** while solving the wrong problem or being unusable — those are real failures this tool deliberately does not catch.
+In short: the critique judges *how well an idea is realized*, not *whether the idea was worth realizing* (strategy) or *whether it works* (usability). A design can score **Tasteful** while solving the wrong problem or being unusable — those are real failures this tool deliberately does not catch.
+
+**Scope mode is the one exception, and it is narrow.** It judges whether each proposed feature serves the product's *own stated* reason to exist and core interaction, using rankings. That is selection taste, not market strategy: a feature can pass scope mode and still be the wrong business bet.
 
 **Why this matters (the masking risk — "lipstick on pigs"):** a beautiful, tasteful surface raises *perceived* quality and can mask both a broken floor (aesthetic-usability effect) and a pointless idea. So a "Tasteful" verdict is **not** a verdict that the design works *or* that it was worth making. Whenever a verdict could lend false confidence to either unverified floor, say so (see the masking-flag rule in Voice Rules). Taste on a broken floor — or on the wrong idea — is still a problem; this tool just isn't the one that catches it.
 
@@ -57,12 +61,30 @@ The crisp version: **DESIGN.md tells you which colors and fonts a brand uses; th
 
 ---
 
-## KB Access — two KBs, one ladder
+## Modes: pick one before starting
 
-Tastemaker reads from **two bundled local knowledge bases** that together cover the whole ladder. Resolve every path relative to the directory containing this `SKILL.md`; no network fetch or machine-specific path is required.
+| Mode | Use when | Input | Load |
+|------|----------|-------|------|
+| **Critique** (default) | The user wants a built or designed surface judged | Screenshot, Figma, live page, file, description | This file |
+| **Scope** | The user asks what to cut, what should exist, or shares a feature list, PRD, roadmap or app inventory; or `/tastemaker scope` | Brief, feature list, roadmap | [`references/scope-mode.md`](references/scope-mode.md) |
+| **System** | The user wants conviction or consistency judged across a whole product | Many surfaces: a multi-frame Figma file, a screenshot set, a walked product | [`references/system-mode.md`](references/system-mode.md) |
+
+All modes share the KB, cite-or-skip, and the rankings. Two references apply in every mode:
+
+- [`references/conflicts-and-defended-breaks.md`](references/conflicts-and-defended-breaks.md): the conflict finding shape and the defended-break check. Read it the first time two principles collide or a principle looks deliberately broken.
+- [`references/house-profiles.md`](references/house-profiles.md): the project's own rankings (`tastemaker-house.md`) and cut log (`tastemaker-cuts.md`). If either file exists at the project root, read it before judging. House rankings outrank shared ones for that project.
+
+If a critique reveals the real problem is scope (the wrong things on the surface, not the things done badly), say so and offer scope mode.
+
+---
+
+## KB Access — three layers, one ladder
+
+Tastemaker reads from **three bundled local knowledge bases**. Resolve every path relative to the directory containing this `SKILL.md`; no network fetch or machine-specific path is required.
 
 - **Taste principles — `TS-NNN`** (the judgment layer, Characterful → Convicted): root `kb/`, layout `{category-dir}/TS-NNN-slug.md`. Validate against `kb/ts-ids.json`.
 - **Craft rules — `CR-NNN`** (the measurable layer, the Coherent floor): root `kb/craft/`, layout `{dimension-dir}/CR-NNN-slug.md`. Validate against `kb/craft/cr-ids.json`. Index + schema at `kb/craft/_index.md`.
+- **Ranked trade-offs — `TR-NNN`** (the decision layer, governs conflicts and cuts): root `kb/tradeoffs/`, layout `TR-NNN-slug.md`. Validate against `kb/tradeoffs/tr-ids.json`. Index + schema at `kb/tradeoffs/_index.md`. Seed rankings are cited with `(seed)`, the way craft findings carry a consensus grade.
 - **How to read:** resolve the installed skill directory, then read the relative entry path declared by the matching validator JSON.
 - **The division of labor:** **CR rules are *taught*** (a finding = a measurable fix + the rule + how to see it next time). **TS principles are *evaluated*** (a finding = a judgment about whether the design is good). The rung decides which KB a finding comes from — the rungs keep craft precise and taste judgmental even though they live in one tool.
 - **Cross-references:** an entry may mention an optional `UX-NNN` usability principle. Treat it as context only unless a separate usability KB is available and the user asks for that pass.
@@ -136,6 +158,18 @@ The 11 taste **categories** are the taxonomy; each maps onto a rung. Validate ag
 | TS-011 | Convention as the Tasteful Choice | Contextual Fit | **the ceiling-setter** (governs all rungs) |
 
 Note the shape the runs predicted: **most entries cluster at the Coherent rung** — that's where most work stalls and where most taste findings live. The Convicted rung is sparse and precious (only TS-001 sits there purely), which matches the finding that conviction is the rarest and strongest taste signal.
+
+### Rankings (TR-NNN — decide, across rungs)
+
+5 ranked trade-offs, validated against `kb/tradeoffs/tr-ids.json`. A ranking does not sit on a rung; it decides between principles that do. All five ship as **seed**.
+
+| ID | Ranking | Decides |
+|----|---------|---------|
+| TR-001 | System Consistency over In-Context Discoverability | Where a capability lives across surfaces |
+| TR-002 | Editing over Completeness | TS-010 vs. TS-007 |
+| TR-003 | One Primary Action over Parity of Options | TS-003 vs. pressure for equal weight |
+| TR-004 | Convention over Expression on High-Stakes, Low-Frequency Tasks | TS-011 vs. TS-008 / TS-009 |
+| TR-005 | Depth on the Core Interaction over Breadth of Features | Where the polish budget goes; scope cuts |
 
 ---
 
@@ -258,6 +292,10 @@ These are Correct-rung tells, not taste calls — a design with several of them 
 
 Then check the **ceiling** (TS-011): did the design reach its context-appropriate rung? Over-reaching (distinctiveness where convention was right) is as much a finding as stalling below.
 
+**Conflicts and deliberate breaks (before you call a TS violation).** Two checks, both specified in [`references/conflicts-and-defended-breaks.md`](references/conflicts-and-defended-breaks.md):
+- **Conflict:** if two principles pull opposite ways on the same decision (dense vs. edited, expressive vs. conventional), don't cite both and split the difference. Report one conflict finding, decided by a ranking (shared TR or house H-TR), or marked `no ranking on file` with a TR candidate logged. Apply the same ranking the same way every time the conflict recurs.
+- **Defended break:** if a principle looks broken, check whether a ranking or stated intent puts something above it here, and whether the break is consistent and actually delivers that ranking's benefit. If so, it is a choice to protect, not a gap to fix.
+
 You don't need a finding on every rung. Name where the design actually is, and where it should be — but **don't skip the craft floor to get to the taste conversation;** unfinished craft is the most common reason a design feels "off," and it's the most fixable.
 
 ### Step 3: Select the findings
@@ -273,8 +311,9 @@ Merge findings that share a root cause. In broad mode aim for 3–5 of the most 
 For each finding, pull from the **right KB based on its rung:**
 - **Craft finding (lower rung)** → read the `CR-NNN` entry. Use its **Rule** + **Why** for the reasoning, **The Fix** for the concrete change, and **Eye-training** for the see-it-next-time note. Validate against `kb/craft/cr-ids.json`. Carry the entry's **consensus grade** (law / strong / heuristic) into the finding — never present a heuristic as law.
 - **Taste finding (upper rung)** → read the `TS-NNN` entry. Use its **How to Evaluate** as the logic, **Why It Matters** as reasoning, **Exemplars** for the "what good looks like" comparison. Validate against `kb/ts-ids.json`.
+- **Conflict or defended break** → read the `TR-NNN` entry (or the house profile's `H-TR-NNN`). Use its **Ranking** for the call, **Why** for the cost accepted, and **When It Flips** to check that this context doesn't reverse it. Validate against `kb/tradeoffs/tr-ids.json`; mark seed rankings `(seed)`.
 
-**Cite-or-skip:** only cite an ID that exists in the matching validator JSON. If a finding has no entry, state it on its merits and flag it (`[no CR entry — candidate]` or `[no TS entry — candidate]`). Never invent an ID. Record the candidate in the output coverage note; do not modify the installed KB during a critique.
+**Cite-or-skip:** only cite an ID that exists in the matching validator JSON (or, for `H-TR-NNN`, in the project's house profile). If a finding has no entry, state it on its merits and flag it (`[no CR entry — candidate]`, `[no TS entry — candidate]`, or `[no TR entry: candidate "X over Y"]`). Never invent an ID. Record the candidate in the output coverage note; do not modify the installed KB during a critique.
 
 ### Step 5: Output
 
@@ -328,6 +367,15 @@ This part is non-negotiable; it's what makes this teach, not just lint.]
 - **Lead with craft findings** when they're the highest-leverage (usually they are — the floor everything stands on), then the taste findings.
 - A craft finding is almost always a **GAP** (a fix) or a **STRENGTH** ("this dimension is tight ✓"); it doesn't carry a STRENGTH/GAP severity word in the eyebrow — `CRAFT · DIMENSION · CR-NNN` is enough.
 
+### Conflict and defended-break findings (rankings — `TR-NNN`)
+
+Two more shapes, specified in full in [`references/conflicts-and-defended-breaks.md`](references/conflicts-and-defended-breaks.md):
+
+- **Conflict:** eyebrow `CONFLICT · TS-NNN vs. TS-NNN · decided by TR-NNN (seed) | H-TR-NNN | no ranking on file`; sections **The collision**, **Decided by**, **The call**, **Flip condition**.
+- **Defended break:** eyebrow `DEFENDED · CONVICTED · TS-NNN broken for TR-NNN | H-TR-NNN | stated intent`; sections **What I see**, **Why it holds**, **Protect**.
+
+Place conflict findings after craft and before the remaining taste findings: they decide what the taste findings should ask for.
+
 ### Closing: Overall Assessment
 
 After the findings, close with:
@@ -338,9 +386,10 @@ After the findings, close with:
    - **Tasteful** — craft floor is tight AND it reached its context-appropriate taste ceiling.
    - **Competent** — craft mostly holds but it fell short of its taste ceiling, OR a real point of view undercut by unfinished craft.
    - **Unrealized** — craft floor is shaky and/or it stalls well below its ceiling with no committed point of view.
+   - **Defended breaks** adjust this: stated intent alone removes the penalty; a cited ranking held consistently counts toward Convicted. The ceiling still caps the grade.
 4. **The climb** — the one or two moves that lift it most. Usually: fix the craft floor first (measurable, immediate), then the one taste move. Name both.
 5. **What to protect** — the strongest decision already present (craft or taste), so it survives the next iteration.
-6. **Coverage note** — which findings cited real CR/TS entries, which flagged candidates.
+6. **Coverage note** — which findings cited real CR/TS/TR entries, which flagged candidates, every conflict and the layer that decided it (shared or house).
 7. **The masking caveat** (always, on any positive-leaning verdict): *"This assesses craft and taste — not whether the design works (usability/accessibility — run `/ux-critique`) or whether it's worth building (strategy, upstream). A tight, tasteful design can still be the wrong thing, or unusable."*
 
 ---
@@ -380,6 +429,8 @@ Tastemaker is the *evaluation* tool. It composes with — does not duplicate —
 | Motion generation | a dedicated motion-design tool | generate |
 | Durable report | bundled HTML builder | artifact |
 | **Taste** (is it *good*?) | **tastemaker** | evaluate |
+| **Selection** (should it *exist*, which principle wins?) | **tastemaker** scope mode + rankings | decide |
+| Market need, revenue, business bets | product strategy | upstream |
 
 **Three output channels (same evaluation, different surfaces):** **chat** (default) · **Figma cards** (explicit writeback) · **HTML artifact** (explicit durable output). Never publish an artifact without the user's explicit approval.
 
@@ -387,6 +438,6 @@ Tastemaker is the *evaluation* tool. It composes with — does not duplicate —
 
 ## Limitations (be transparent)
 
-This is an early KB: **12 taste principles (`TS-NNN`) + 20 craft rules (`CR-NNN`)** — a real foundation across both layers, not yet deep coverage. Some findings will outrun the KB; flag candidates (`[no TS entry — candidate]` / `[no CR entry — candidate]`) in the coverage note. Do not pretend coverage you do not have, and never invent an ID. Craft rules distinguish law, strong consensus, and heuristic guidance; preserve those grades in every finding.
+This is an early KB: **12 taste principles (`TS-NNN`) + 20 craft rules (`CR-NNN`) + 5 ranked trade-offs (`TR-NNN`)** — a real foundation across all three layers, not yet deep coverage. Some findings will outrun the KB; flag candidates (`[no TS entry — candidate]` / `[no CR entry — candidate]` / `[no TR entry: candidate "X over Y"]`) in the coverage note. Do not pretend coverage you do not have, and never invent an ID. Craft rules distinguish law, strong consensus, and heuristic guidance, and rankings distinguish seed from established; preserve those grades in every finding.
 
 **Known input-mode gap:** motion entries (TS-004, TS-012) cannot be evaluated from a static screenshot. When evaluating a still image, note motion findings as deferred: `[motion not evaluable from static capture]`. A live/video input mode (e.g. Playwright-driven capture of hover/click/scroll/drag) is the top open skill-level TODO. Always evaluate at the design's intended viewport (ask or infer platform) — judging a mobile design at desktop width produces false findings.

@@ -8,6 +8,10 @@ base and generated public viewer.
 - `skills/tastemaker/SKILL.md` is the runtime router and must stay below 500 lines.
 - `skills/tastemaker/kb/ts-ids.json` is the source of truth for all `TS-NNN` IDs.
 - `skills/tastemaker/kb/craft/cr-ids.json` is the source of truth for all `CR-NNN` IDs.
+- `skills/tastemaker/kb/tradeoffs/tr-ids.json` is the source of truth for all `TR-NNN` IDs.
+- Registries are also the source of truth for every count and ID range stated in prose.
+  The validator fails on drift, so update the registry first and the prose to match.
+- House-profile rankings (`H-TR-NNN`) live in users' projects. Never add them to `tr-ids.json`.
 - Never invent or cite an ID absent from its registry.
 - Every registry path must exist and every entry must appear exactly once.
 - Keep references one level below `SKILL.md` and link them directly.

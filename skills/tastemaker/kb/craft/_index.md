@@ -16,12 +16,12 @@ Craft is rule-based, so it's checkable, and checkable means teachable. Each rule
 
 | Dir | Dimension | What it teaches | Entries |
 |-----|-----------|-----------------|---------|
-| `spacing-rhythm/` | Spacing & Rhythm | Scale discipline, proximity, vertical rhythm, whitespace | CR-001…007 |
-| `type-hierarchy/` | Type Hierarchy | Size cap, weight+color hierarchy, body size, line length, tracking | CR-101…107 |
-| `color-contrast/` | Color & Contrast | Contrast thresholds, palette discipline, OKLCH, semantic consistency | CR-201…206 |
-| `shadow-elevation/` | Shadow & Elevation | Single light source, elevation ramp, layering, tinting | CR-301…305 |
-| `alignment-grid/` | Alignment & Grid | Optical alignment, one edge, radius system, grid, pixel-snapping | CR-401…404 |
-| `density-balance/` | Density & Balance | Consistent + appropriate density, tension/release, space-before-borders | CR-501…504 |
+| `spacing-rhythm/` | Spacing & Rhythm | Scale discipline, proximity, vertical rhythm, whitespace | CR-001…004 |
+| `type-hierarchy/` | Type Hierarchy | Size cap, weight+color hierarchy, body size, line length, tracking | CR-101…104 |
+| `color-contrast/` | Color & Contrast | Contrast thresholds, palette discipline, OKLCH, semantic consistency | CR-201…204 |
+| `shadow-elevation/` | Shadow & Elevation | Single light source, elevation ramp, layering, tinting | CR-301…303 |
+| `alignment-grid/` | Alignment & Grid | Optical alignment, one edge, radius system, grid, pixel-snapping | CR-401…403 |
+| `density-balance/` | Density & Balance | Consistent + appropriate density, tension/release, space-before-borders | CR-501…502 |
 
 ---
 

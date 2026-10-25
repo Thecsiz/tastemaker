@@ -12,14 +12,56 @@
       "id": 2,
       "name": "contextual-fit-conventional-checkout",
       "prompt": "Evaluate a highly conventional checkout flow with excellent spacing, hierarchy, states, and visual consistency, but almost no distinctive brand expression.",
-      "expected_output": "Set the context-appropriate ceiling before grading. Retrieve TS-011 and explain that Coherent may be the tasteful ceiling for a checkout. Do not penalize the flow merely for lacking distinctiveness; a Tasteful grade is valid if it reaches the chosen ceiling.",
+      "expected_output": "Set the context-appropriate ceiling before grading. Retrieve TS-011 and explain that Coherent may be the tasteful ceiling for a checkout. Do not penalize the flow merely for lacking distinctiveness; a Tasteful grade is valid if it reaches the chosen ceiling. TR-004 may be cited as the ranking that decides convention over expression here, marked (seed).",
       "files": []
     },
     {
       "id": 3,
       "name": "maximalism-dogma-test",
       "prompt": "Evaluate an expressive festival poster interface with dense layering, bright colors, multiple type families, and governed visual abundance. The hierarchy remains legible and every expressive device supports the event's identity.",
-      "expected_output": "Do not equate taste with minimalism or restraint. Judge whether the abundance is intentional, coherent, and contextually appropriate. Consider TS-001, TS-002, TS-007, TS-009, and TS-011 only when the observed mechanism supports them; cite nothing when no entry is a close fit.",
+      "expected_output": "Do not equate taste with minimalism or restraint. Judge whether the abundance is intentional, coherent, and contextually appropriate. Consider TS-001, TS-002, TS-007, TS-009, and TS-011 only when the observed mechanism supports them; cite nothing when no entry is a close fit. Do not apply TR-002 to strip the abundance: the poster's identity is the job, so the ranking's flip condition applies.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "conflict-consistency",
+      "prompt": "Evaluate a three-screen analytics product. Screen one is a dense KPI dashboard where every metric is shown at once. Screen two is a settings page with thirty equal-weight toggles. Screen three is a report builder that exposes every chart option inline. The team defends all three as 'earned density for power users.'",
+      "expected_output": "Recognize the same conflict on all three screens: TS-007 (Earned Density) against TS-010 (Editing vs. Listing). Report it as a CONFLICT finding, not as two separate citations. Decide it with TR-002 (seed) consistently on every screen where its flip condition does not apply, and say explicitly where it does flip (the KPI dashboard may legitimately need completeness). Never decide the same conflict two different ways without naming the flip condition that justifies it. Never invent a TR ID.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "scope-cuts-against-core",
+      "prompt": "/tastemaker scope. Here is the v1 feature list for a quick-capture notes app whose stated purpose is 'capture a thought in under two seconds': instant capture widget, tags, nested folders, rich text formatting, theme editor inside the main capture screen, collaboration and sharing, AI summaries, calendar integration, offline sync, search.",
+      "expected_output": "Run scope mode. State the reason to exist and the core interaction before judging. Return a cut list table sorted Cut, Move, Merge, Defer, Keep. Keep the capture widget, offline sync and search as serving the core. Cut or defer items that compete with two-second capture (nested folders, rich text, collaboration, calendar integration, AI summaries), citing TR-005 (seed) and TR-002 (seed) where they apply. Move the theme editor out of the capture screen, citing TR-001 (seed). Name what the product gives up. Do not judge market demand.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "scope-forcing-rule",
+      "prompt": "/tastemaker scope. A meditation timer app with the stated purpose 'start a timed sit in one tap.' Features: one-tap start, duration presets, bell sound choice, session history, reminder notification. Should anything go?",
+      "expected_output": "Apply the forcing rule: either cut, defer, merge or move something, or explain in one sentence why every item serves the core directly. Do not keep everything without a stated reason. A defensible answer defers or merges a peripheral item (for example, session history or bell choice) or explicitly argues each serves one-tap starting. Vague approval ('everything seems useful') fails.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "defended-vs-sloppy-break",
+      "prompt": "Two designs both break TS-003 (The One-Thing Rule) with two equal-weight primary buttons. Design A: a consent screen offering 'Accept tracking' and 'Decline tracking' at equal weight, on every consent surface in the product. Design B: a product page where 'Buy now' and 'Add to wishlist' are both filled and bold on one screen only, while every other product page has a single primary action.",
+      "expected_output": "Run the defended-break check on both. Design A is a defended break: TR-003's flip condition (consent must be neutral) puts honesty above one-primary-action, and the break is consistent. Protect it. Design B is a violation: the break is a one-off, serves no ranking, and contradicts the product's own pattern. Report it as a GAP citing TS-003 and TR-003 (seed). Stated intent alone would only remove the penalty, never lift the grade.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "name": "system-planted-inconsistency",
+      "prompt": "System mode. A finance app's twelve surfaces all route notification preferences to one Settings > Notifications page, except the bills screen, which has its own inline notification panel with different labels and defaults.",
+      "expected_output": "Run system mode. Identify TR-001 (seed) as the ranking in force. Report that it holds on eleven surfaces and breaks on the bills screen. Name Settings > Notifications as the canonical home and recommend replacing the inline panel with a link to it (a contextual shortcut that points home is allowed). Treat the single inconsistency as weaker conviction than full consistency.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "name": "house-ranking-outranks-shared",
+      "prompt": "Evaluate a dense trading-desk order ticket. The project root contains tastemaker-house.md with owner 'Design lead' and ranking H-TR-001 'Completeness over editing on the order ticket, even when it looks crowded', with 'Against shared: TR-002, because traders must verify every field before submitting.'",
+      "expected_output": "Read the house profile before judging. Apply H-TR-001 over the shared TR-002 for this project and say which layer decided ('decided by house ranking H-TR-001'). Do not report the density as a gap. Do not write to the profile's Rankings section. Never add H-TR IDs to the shared registry or cite them as shared rankings.",
       "files": []
     }
   ]

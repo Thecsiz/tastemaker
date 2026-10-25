@@ -15,6 +15,8 @@
  *   - Characterful   : TS principles about earned identity
  *   - Convicted      : TS principles about committing to an opinion
  *   - Contextual Fit : TS-011, the governor that caps how high any surface should climb
+ *   - Trade-offs     : TR-NNN rankings ("X over Y") that decide conflicts between principles;
+ *                      they sit beside the ladder rather than on a rung
  *
  * Craft (CR) and Taste (TS) are NOT peers — craft is the floor you clear to reach the taste
  * questions above it. The board teaches that one-ladder model rather than two separate KBs.
@@ -33,6 +35,7 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const KB = path.join(ROOT, "skills", "tastemaker", "kb");
 const CRAFT = path.join(KB, "craft");
+const TRADEOFFS = path.join(KB, "tradeoffs");
 
 // ── tiny frontmatter + body parser ──────────────────────────────────────────
 function parseEntry(absPath) {
@@ -92,6 +95,17 @@ for (const [id, meta] of Object.entries(tsIds.ids)) {
     body: stripH1(body),
   });
 }
+// ── load TRADE-OFFS (TR) → beside the ladder, deciding between principles ─────
+const trIds = JSON.parse(fs.readFileSync(path.join(TRADEOFFS, "tr-ids.json"), "utf8"));
+const tradeoffs = [];
+for (const [id, meta] of Object.entries(trIds.ids)) {
+  const { fm, body } = parseEntry(path.join(TRADEOFFS, meta.path));
+  tradeoffs.push({
+    id, kind: "TR", title: meta.title, category: "Ranked trade-off",
+    grade: meta.status || fm.status || "", consensus: meta.consensus || fm.consensus || "",
+    tags: parseTags(fm.tags), rungClass: "tradeoff", body: stripH1(body),
+  });
+}
 // ── flatten into one ordered entry list, each tagged with its rung ─────────────
 // Order: by ladder rung, and within Coherent the craft floor (CR) comes first.
 const entries = [];
@@ -103,6 +117,7 @@ for (const e of tasteByRung.coherent) entries.push({ ...e, rung: "coherent", run
 for (const e of tasteByRung.characterful) entries.push({ ...e, rung: "characterful", rungLabel: "Characterful" });
 for (const e of tasteByRung.convicted) entries.push({ ...e, rung: "convicted", rungLabel: "Convicted" });
 for (const e of tasteByRung.ceiling) entries.push({ ...e, rung: "ceiling", rungLabel: "Contextual Fit" });
+for (const e of tradeoffs) entries.push({ ...e, rung: "tradeoff", rungLabel: "Trade-off" });
 
 const DATA = {
   entries,
@@ -110,6 +125,7 @@ const DATA = {
     { key: "all", label: "All entries" },
     { key: "kind:CR", label: "Craft only · CR" },
     { key: "kind:TS", label: "Taste only · TS" },
+    { key: "kind:TR", label: "Trade-offs only · TR" },
     { key: "rung:coherent", label: "Rung · Coherent" },
     { key: "rung:characterful", label: "Rung · Characterful" },
     { key: "rung:convicted", label: "Rung · Convicted" },
@@ -117,6 +133,7 @@ const DATA = {
   ],
   craftCount: crIds.count,
   tasteCount: tsIds.count,
+  tradeoffCount: trIds.count,
 };
 
 // ── viewer template ──────────────────────────────────────────────────────────
@@ -129,14 +146,14 @@ const HTML = `<!DOCTYPE html>
 :root{
   --bg:#FAFAFA;--fg:#131316;--muted:#52525B;--faint:#71717A;
   --card:#FFFFFF;--line:#E8E8EA;--hover:#F4F4F5;
-  --green:#1A6A43;--amber:#9A6B12;--magenta:#8E3B8E;--violet:#514696;
+  --green:#1A6A43;--amber:#9A6B12;--magenta:#8E3B8E;--violet:#514696;--teal:#1F6370;
   --r-sm:8px;--r-md:12px;--r-lg:16px;
   --sans:Inter,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace}
 @media(prefers-color-scheme:dark){:root{
   --bg:#0B0B0C;--fg:#FAFAFA;--muted:#A1A1AA;--faint:#8B8B93;
   --card:#161618;--line:#27272A;--hover:#202022;
-  --green:#46C088;--amber:#E0B450;--magenta:#D98AD9;--violet:#A99CF0}}
+  --green:#46C088;--amber:#E0B450;--magenta:#D98AD9;--violet:#A99CF0;--teal:#5CC2D1}}
 html{color-scheme:light dark}
 body{font-family:var(--sans);background:var(--bg);color:var(--fg);height:100vh;display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
 .header{flex-shrink:0;display:flex;align-items:center;gap:1rem;padding:.8rem 1.25rem;border-bottom:1px solid var(--line);background:var(--bg);z-index:10}
@@ -154,24 +171,25 @@ body{font-family:var(--sans);background:var(--bg);color:var(--fg);height:100vh;d
 .card{background:var(--card);border:1px solid var(--line);border-left-width:3px;border-radius:var(--r-md);padding:.8rem .9rem;cursor:pointer;transition:background .12s,box-shadow .12s,transform .12s;box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .card:hover{background:var(--hover);box-shadow:0 4px 14px rgba(0,0,0,.08);transform:translateY(-1px)}
 .card.hidden{display:none}
-.card.coherent{border-left-color:var(--amber)} .card.characterful,.card.convicted{border-left-color:var(--magenta)} .card.ceiling{border-left-color:var(--violet)}
+.card.coherent{border-left-color:var(--amber)} .card.characterful,.card.convicted{border-left-color:var(--magenta)} .card.ceiling{border-left-color:var(--violet)} .card.tradeoff{border-left-color:var(--teal)}
 .card-top{display:flex;align-items:baseline;justify-content:space-between;gap:.4rem;margin-bottom:.35rem}
 .card-id{font-family:var(--mono);font-size:.66rem;color:var(--faint)}
 .kind-dot{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
-.kind-dot.cr{color:var(--amber)} .kind-dot.ts{color:var(--magenta)}
+.kind-dot.cr{color:var(--amber)} .kind-dot.ts{color:var(--magenta)} .kind-dot.tr{color:var(--teal)}
 .grade{font-family:var(--mono);font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--faint)}
-.grade.law{color:var(--green)} .grade.strong{color:var(--amber)} .grade.heuristic{color:var(--faint)}
+.grade.law{color:var(--green)} .grade.strong{color:var(--amber)} .grade.heuristic{color:var(--faint)} .grade.seed,.grade.established{color:var(--teal)}
 .card-title{font-size:.88rem;font-weight:600;line-height:1.3;letter-spacing:-.01em;margin-bottom:.5rem}
 .card-meta{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap}
 .rung-badge{display:inline-flex;align-items:center;height:1.2rem;padding:0 .5rem;border-radius:999px;font-size:.56rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
 .rung-badge.coherent{background:color-mix(in srgb,var(--amber) 14%,transparent);color:var(--amber)}
 .rung-badge.characterful,.rung-badge.convicted{background:color-mix(in srgb,var(--magenta) 14%,transparent);color:var(--magenta)}
 .rung-badge.ceiling{background:color-mix(in srgb,var(--violet) 16%,transparent);color:var(--violet)}
+.rung-badge.tradeoff{background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--teal)}
 .badge{display:inline-flex;align-items:center;height:1.2rem;padding:0 .45rem;border-radius:999px;font-size:.58rem;font-weight:600;letter-spacing:.02em;text-transform:uppercase;background:var(--hover);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
 .modal-bd{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center;padding:2rem 1rem}
 .modal-bd.open{display:flex}
 .modal{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);width:100%;max-width:720px;max-height:calc(100vh - 4rem);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.25);border-top:4px solid var(--line)}
-.modal.coherent{border-top-color:var(--amber)} .modal.characterful,.modal.convicted{border-top-color:var(--magenta)} .modal.ceiling{border-top-color:var(--violet)}
+.modal.coherent{border-top-color:var(--amber)} .modal.characterful,.modal.convicted{border-top-color:var(--magenta)} .modal.ceiling{border-top-color:var(--violet)} .modal.tradeoff{border-top-color:var(--teal)}
 .modal-head{flex-shrink:0;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1.4rem 1.6rem 1.1rem;border-bottom:1px solid var(--line)}
 .modal-id{font-family:var(--mono);font-size:.72rem;color:var(--faint);margin-bottom:.3rem}
 .modal-title{font-size:1.2rem;font-weight:700;letter-spacing:-.02em;line-height:1.25}
@@ -227,7 +245,7 @@ function md(src){
 
 const allEntries=DATA.entries;
 function cardHtml(e){
-  const right = e.kind==="CR"
+  const right = (e.kind==="CR"||e.kind==="TR")
     ? '<span class="grade '+esc(e.grade)+'">'+esc(e.grade)+'</span>'
     : '<span class="kind-dot ts">'+esc(e.category||"taste")+'</span>';
   return '<div class="card '+(e.rungClass||"coherent")+'" data-id="'+esc(e.id)+'" data-kind="'+esc(e.kind)+'" data-rung="'+esc(e.rung)+'" data-t="'+esc((e.id+" "+e.title+" "+(e.tags||[]).join(" ")+" "+(e.category||e.group||"")).toLowerCase())+'">'+
@@ -255,7 +273,7 @@ function buildFilter(){
   sel.addEventListener("change",applyFilter);
 }
 
-function updateStats(n){document.getElementById("stats").textContent=(n===undefined?allEntries.length:n)+" of "+allEntries.length+" · "+DATA.tasteCount+" taste · "+DATA.craftCount+" craft"}
+function updateStats(n){document.getElementById("stats").textContent=(n===undefined?allEntries.length:n)+" of "+allEntries.length+" · "+DATA.tasteCount+" taste · "+DATA.craftCount+" craft · "+DATA.tradeoffCount+" trade-offs"}
 
 function applyFilter(){
   const f=document.getElementById("filter").value;
@@ -277,11 +295,12 @@ function openModal(e){
   document.getElementById("mTitle").textContent=e.title;
   const meta=[];
   meta.push('<span class="rung-badge '+(e.rungClass||"coherent")+'">'+esc(e.rungLabel)+'</span>');
-  meta.push('<span class="badge">'+(e.kind==="CR"?"Craft · CR":"Taste · TS")+'</span>');
+  meta.push('<span class="badge">'+(e.kind==="CR"?"Craft · CR":e.kind==="TR"?"Trade-off · TR":"Taste · TS")+'</span>');
   if(e.group)meta.push('<span class="badge">'+esc(e.group)+'</span>');
   if(e.category)meta.push('<span class="badge">'+esc(e.category)+'</span>');
   if(e.grade)meta.push('<span class="grade '+esc(e.grade)+'" style="margin-left:auto">'+esc(e.grade)+'</span>');
   if(e.measurable)meta.push('<span class="tag">measurable: '+esc(e.measurable)+'</span>');
+  if(e.consensus)meta.push('<span class="tag">consensus: '+esc(e.consensus)+'</span>');
   document.getElementById("mMeta").innerHTML=meta.join("");
   document.getElementById("mBody").innerHTML=md(e.body);
   document.getElementById("modal").className="modal "+(e.rungClass||"coherent");
@@ -311,8 +330,8 @@ if (process.argv.includes("--check")) {
     console.error(`${path.relative(ROOT, OUT)} is stale; run node scripts/build-kb-viewer.js`);
     process.exit(1);
   }
-  console.log(`${path.relative(ROOT, OUT)} is current — ${DATA.tasteCount} TS + ${DATA.craftCount} CR`);
+  console.log(`${path.relative(ROOT, OUT)} is current — ${DATA.tasteCount} TS + ${DATA.craftCount} CR + ${DATA.tradeoffCount} TR`);
 } else {
   fs.writeFileSync(OUT, HTML);
-  console.log(`wrote ${path.relative(ROOT, OUT)} — one ladder: ${DATA.tasteCount} TS across rungs + ${DATA.craftCount} CR in the Coherent floor`);
+  console.log(`wrote ${path.relative(ROOT, OUT)} — one ladder: ${DATA.tasteCount} TS across rungs + ${DATA.craftCount} CR in the Coherent floor + ${DATA.tradeoffCount} TR beside it`);
 }
