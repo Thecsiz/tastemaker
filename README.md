@@ -1,31 +1,28 @@
 # Tastemaker
 
-A design-critique skill for Claude Code and Codex. It judges whether a design is well made and whether it has taste, and it helps decide what shouldn't be built in the first place.
+Tastemaker is a design-critique skill for Claude Code and Codex. You give it a screenshot, a Figma file or a live page, and it critiques the craft and the taste. You can also give it a feature list before anything is built, and it tells you what to cut.
 
 [Browse the 37-entry knowledge base](https://thecsiz.github.io/tastemaker/) · [Download the installable skill](https://github.com/Thecsiz/tastemaker/raw/refs/heads/main/skills/tastemaker.skill)
 
 ## Why I built this
 
-I've been building a lot of apps on my own lately, and I've gotten to the point where most things I can picture, I can build, and build well. The AI tools keep getting better and the quality bar keeps getting easier to reach. That changes where the hard part is. If building is cheap, the decision that matters is what to leave out.
+I've been building a lot of apps and side projects lately. At this point most things I can think of, I can build, and get to a pretty high level of quality. It gets easier every time the AI tools and workflows get better. So the harder question for me has become what not to build.
 
-I keep coming back to Apple under Steve Jobs. Apple had the money and the people to build anything, and the software often shipped as the smallest version of the idea. When Jobs came back in 1997 he cut the product line down to four boxes: consumer and pro, desktop and portable. Everything outside that grid went.
+I keep thinking about Apple under Steve Jobs. Apple had the money to build anything, and a lot of the time they shipped the simplest version of the software experience. They didn't over-design it or over-engineer it. Jobs seemed to know where the cutoff line was.
 
-The iOS Settings app is a good example of the same instinct at the interface level. An app keeps a few settings inside itself, and the full set lives in the system Settings app. That split is invisible in any single screenshot. Someone drew that line once and then held it across the whole platform, even where putting a setting in context would have been easier for one app. It costs some discoverability, and it buys a system where you know where configuration lives.
+The iOS Settings app is a good example. An app might have a few settings of its own, but the full set lives under that app in the Settings app. Someone made the call to split those two things. Maybe it was for simplicity, maybe it was because they had to support a billion users. Either way, the call was made, the principle was defined, and for the most part it held.
 
-What looked like instinct was mostly a small number of principles that decided cases before they came up, plus the willingness to keep them when an exception looked tempting. I wanted a tool that works that way. The first version of Tastemaker could tell you whether a screen was well made. It couldn't tell you which principle should win when two of them disagreed, and it couldn't see the features that were correctly cut, because a cut feature leaves nothing on screen to critique.
+I think a lot of what looks like instinct there is a short list of principles that decide things ahead of time, plus the discipline to keep them when an exception looks better. I want Tastemaker to work that way. The first version could tell me if a screen was well made and whether it had a point of view. It couldn't tell me which principle should win when two of them disagreed, and it couldn't see a feature that had been correctly cut, because there's nothing on screen to look at.
 
 ## What it does
 
-Tastemaker answers four questions, and the first two came first:
+When you share a design, it works through it in order. First it sets the brief: what the surface is, who it's for, how much is at stake, and how far up the ladder it should go. Then it checks the craft against 20 craft rules, things like spacing, type and contrast. Each craft finding comes with the fix and how to spot the problem next time. After that it judges the taste against 12 taste principles. If two of those principles disagree on the same screen, one of 5 ranked trade-offs decides which one wins. It finishes with a grade, the next move up, and what to keep.
 
-1. Is this well made? Spacing, type, color, shadow, alignment and density are checked against 20 craft rules (`CR-NNN`). Each finding teaches the fix and how to spot it next time.
-2. Is this good? Point of view, coherence, character, conviction and fit for the context are judged against 12 taste principles (`TS-NNN`).
-3. Which principle wins here? When two principles pull in opposite directions on the same surface, one of 5 ranked trade-offs (`TR-NNN`) decides.
-4. Should this exist? Before anything gets built, scope mode goes through a feature list and returns what to keep and what to cut.
+Scope mode works earlier. It takes a feature list instead of a design and tells you what to keep and what to cut.
 
-Every citation has to resolve to a real entry in the bundled knowledge base. When nothing fits closely enough, Tastemaker states the finding without an ID instead of inventing one.
+Every finding has to cite a real entry in the knowledge base. If nothing fits, it says what it sees without an ID instead of making one up.
 
-It doesn't generate replacement designs, enforce a brand system, judge market demand or run a full usability and accessibility audit.
+It doesn't redesign anything for you, check brand compliance, judge market demand or do a full usability and accessibility audit.
 
 ## The ladder
 
@@ -38,11 +35,15 @@ It doesn't generate replacement designs, enforce a brand system, judge market de
   1. Correct      usable and clear; assumed, not audited here
 ```
 
-Higher isn't automatically better. A checkout should probably stop at Coherent. A hero or an onboarding flow should push for Convicted. The grade is how close a design gets to the ceiling that fits its context, and craft comes first, because a design with sloppy spacing and eight type sizes can't reach the upper rungs no matter how good the idea is.
+Higher isn't always better. A checkout should probably stop at Coherent, and a hero or an onboarding flow should push for Convicted. The grade is how close a design gets to the right ceiling for its context.
+
+Craft comes first. A design with off-scale spacing and eight type sizes can't get to the upper rungs, even if the idea behind it is good.
 
 ## Ranked trade-offs
 
-A rubric scores each dimension on its own, and taste shows up when two of them conflict. A screen can be clear and full of character and still be the wrong call, because the real decision was which one to give up. So the rankings all take the same form: X over Y, even when Y wins locally. The "even when" part is the point. A ranking that only holds when it costs nothing isn't doing any work.
+A rubric scores each thing on its own. The hard calls usually happen when two good things pull against each other. A dashboard can't be as complete as possible and as edited as possible at the same time, and the first version of Tastemaker would cite both principles and leave it there.
+
+The rankings make that call. Each one is written as "X over Y, even when Y wins locally," because a ranking only matters in the cases where following it costs you something.
 
 | ID | Ranking |
 |----|---------|
@@ -52,21 +53,21 @@ A rubric scores each dimension on its own, and taste shows up when two of them c
 | TR-004 | Convention over Expression on High-Stakes, Low-Frequency Tasks |
 | TR-005 | Depth on the Core Interaction over Breadth of Features |
 
-TR-001 is the Settings split written down as a rule. TR-005 is the 1997 grid applied to features: put the craft into the one interaction the product exists for before spreading it across more things. Each entry also says when it flips. Completeness wins on a trading terminal, for example, and convention loses on an identity surface.
+TR-001 is basically the Settings example written down. TR-005 is the same idea applied to features: get the one interaction the product exists for really good before spreading the work across more things. Each ranking also says when it flips. On a trading terminal, for example, completeness should win over editing.
 
-All five ship as seeds. A critique that cites one marks it `(seed)`, and a seed only becomes established after it has decided the same conflict the same way across a lot of critiques. I'm not sure yet these are the right five, which is why they're seeds.
+All five are seeds for now. I'm not sure yet that these are the right five, so a critique marks them as `(seed)` when it cites one. A seed only becomes established after it's decided the same conflict the same way across a lot of critiques.
 
 The rankings show up in three places:
 
-- Conflict findings. When two principles collide, the critique reports one finding and the ranking that decided it, instead of citing both and splitting the difference. If no ranking covers the conflict, it makes the call on the merits and logs a candidate for a new one.
-- Defended breaks. Sometimes a design breaks a principle on purpose. If the break is consistent and serves a higher ranking, Tastemaker protects it instead of flagging it. Saying "we meant to do that" only removes the penalty. A ranking held consistently is what counts toward Convicted.
-- Scope cuts. Scope mode uses them to decide what stays.
+- When two principles collide, the critique gives one finding and names the ranking that decided it. If no ranking covers it, it makes the call anyway and logs it as a candidate for a new ranking.
+- When a design breaks a principle on purpose, Tastemaker checks whether the break is consistent and serves a higher ranking. If it does, it protects the decision instead of flagging it. Saying it was on purpose only removes the penalty. Holding a ranking consistently is what moves a design toward Convicted.
+- Scope mode uses them to decide what stays.
 
 ## Scope mode
 
-Scope mode runs before anything gets built. You give it a brief, a PRD, a feature list, a roadmap or an inventory of an app you already have. It asks for the one-sentence reason the product exists and the core interaction, the one thing it has to do really well. If you can't state those, that's the first finding.
+You give it a brief, a PRD, a feature list, a roadmap, or a list of what's in an app you already have. It asks for the one-sentence reason the product exists and the core interaction, the one thing it has to do really well. If you can't answer those, that's the first finding.
 
-Then it goes through each item and asks whether it serves the core, competes with it, or just sits next to it, and returns a table:
+Then it goes through each item, decides whether it serves the core, competes with it or just sits next to it, and gives you a table:
 
 | Verdict | Meaning |
 |---------|---------|
@@ -76,17 +77,17 @@ Then it goes through each item and asks whether it serves the core, competes wit
 | Merge | Overlaps another item. Fold them together. |
 | Move | Fine, but it lives in the wrong place. Put it where it belongs. |
 
-It has to cut something, or explain in one sentence why nothing should go. A scope review that keeps everything hasn't done its job. It judges each item against the product's own stated purpose. Whether the business should make the bet is a separate call it leaves to you.
+It has to cut something, or tell you in one sentence why nothing should go. I added that rule because it's easy for a review to approve everything when each item makes sense on its own. It only judges items against the product's own purpose. Whether the business should make the bet is still your call.
 
 ## System mode
 
-A single screen can show character. Conviction mostly shows across a whole product: the same ranking held on the screen where breaking it would have looked better. System mode takes a Figma file with a lot of frames, a folder of screenshots or a live product, checks each ranking surface by surface, names one home for every capability that shows up in more than one place, and grades the system on how consistently the rankings hold.
+A single screen can show character, but holding to a principle shows up across a whole product, especially on the screen where breaking it would have looked better. System mode takes a Figma file with a lot of frames, a folder of screenshots or a live product. It checks each ranking screen by screen, picks one home for anything that shows up in more than one place, and grades the product on how consistently the rankings hold.
 
 ## Your own rankings
 
-The shared rankings are where most people would agree. Rankings are also where teams legitimately disagree, so you can keep your own in a `tastemaker-house.md` file at the root of your project. One person owns it and promotes rankings. Anyone, including Tastemaker, can only add proposals. House rankings outrank the shared ones for that project, and a critique always says which one decided.
+The shared rankings are the ones most people would agree with. Teams will disagree on others, and that's fine. You can keep your own in a `tastemaker-house.md` file at the root of your project. One person owns the file and decides what becomes a ranking. Anyone else, including Tastemaker, can only add proposals. Your rankings win over the shared ones for that project, and a critique always says which one made the call.
 
-Cuts you accept go into `tastemaker-cuts.md`. Later runs read it, so a cut today that contradicts a ranking you applied last month gets flagged. The format and rules are in [references/house-profiles.md](skills/tastemaker/references/house-profiles.md).
+When you accept a cut, it goes into `tastemaker-cuts.md`. Later runs read that file, so if you bring back something you cut last month, or make a call that contradicts an earlier one, it gets flagged. The format is in [references/house-profiles.md](skills/tastemaker/references/house-profiles.md).
 
 ## Install for Claude Code
 
@@ -97,7 +98,7 @@ mkdir -p ~/.claude/skills/tastemaker
 cp -R skills/tastemaker/. ~/.claude/skills/tastemaker/
 ```
 
-The knowledge base is bundled inside the skill folder, so there are no machine-specific paths or extra repos to set up. Claude can load the skill on its own when a request matches, or you can call it directly:
+The knowledge base is bundled inside the skill folder, so there's nothing else to set up. Claude can pick up the skill on its own when a request matches, or you can call it directly:
 
 ```text
 /tastemaker Why does this design look off? Teach me the craft fixes first.
@@ -124,35 +125,35 @@ mkdir -p ~/.codex/skills/tastemaker
 cp -R skills/tastemaker/. ~/.codex/skills/tastemaker/
 ```
 
-Then call it with `$tastemaker`. The bundled `agents/openai.yaml` has the Codex display metadata. The workflow and knowledge base are the same as in Claude Code.
+Then call it with `$tastemaker`. The bundled `agents/openai.yaml` has the Codex display info. Everything else works the same as in Claude Code.
 
 ## Figma cards and HTML reports
 
-If you want the critique written into a Figma file, say so:
+If you want the critique written into a Figma file, ask for it:
 
 ```text
 /tastemaker Evaluate this Figma flow and add the taste cards to the file: [Figma URL]
 ```
 
-It reads the frames, sets the brief and ceiling, checks craft before taste, then adds a card for every screen plus a flow summary and an overall verdict, and checks that nothing overlaps. Reading and writing in Figma are separate permissions. If it can read but not write, it says so and gives you the critique in chat. If you share a Figma link without saying which you want, it asks.
+It reads the frames, sets the brief, checks the craft before the taste, and then adds a card for every screen, a summary of the flow and an overall verdict. After that it checks that none of the cards overlap. Reading and writing in Figma are separate permissions, so if it can read the file but can't write to it, it tells you and gives you the critique in chat. If you share a Figma link without saying which one you want, it asks.
 
-For anything outside Figma, it can build a self-contained HTML report locally:
+For anything that isn't in Figma, it can build an HTML report on your machine:
 
 ```bash
 node ~/.claude/skills/tastemaker/scripts/build-report.js report.json --out tastemaker-report.html
 ```
 
-Publishing that report anywhere is a separate step you have to ask for.
+It won't publish the report anywhere unless you ask.
 
 ## The knowledge base
 
-The [viewer](https://thecsiz.github.io/tastemaker/) shows the same entries and registries that ship with the skill. You can search by ID, title or tag and filter by layer.
+The [viewer](https://thecsiz.github.io/tastemaker/) shows the same entries that ship with the skill. You can search by ID, title or tag, and filter by layer.
 
-- [`CR-NNN` craft rules](skills/tastemaker/kb/craft/_index.md): 20 measurable rules across six dimensions, each with a fix and an eye-training note.
+- [`CR-NNN` craft rules](skills/tastemaker/kb/craft/_index.md): 20 measurable rules across six dimensions, each with a fix and a note on how to train your eye.
 - [`TS-NNN` taste principles](skills/tastemaker/kb/_index.md): 12 principles across 11 categories, for judging coherence, character, conviction and fit.
-- [`TR-NNN` ranked trade-offs](skills/tastemaker/kb/tradeoffs/_index.md): 5 rankings that decide what yields when principles collide.
+- [`TR-NNN` ranked trade-offs](skills/tastemaker/kb/tradeoffs/_index.md): 5 rankings that decide which principle wins when they collide.
 
-Each registry (`cr-ids.json`, `ts-ids.json`, `tr-ids.json`) is the source of truth for its IDs and its count. The craft rules had drifted at one point. The index listed one fewer rule than the registry, and the registry was right. Now the validator fails if any count or ID range in the docs disagrees with a registry.
+Each layer has a registry (`cr-ids.json`, `ts-ids.json`, `tr-ids.json`) that holds its IDs and its count. At one point the craft index listed one fewer rule than the registry had, and nobody noticed. Now the validator fails if any count or ID range in the docs doesn't match a registry.
 
 ```text
 .
@@ -177,13 +178,13 @@ Each registry (`cr-ids.json`, `ts-ids.json`, `tr-ids.json`) is the source of tru
 node _tools/validate.js
 ```
 
-It checks the skill structure, all three registries, every referenced entry, that stated counts and ID ranges match the registries, renderer syntax, the HTML report fixture, the generated viewer, the packaged archive, licensing, private references and common secret patterns.
+It checks the skill structure, all three registries, every entry the docs point to, whether the counts and ID ranges in the docs match the registries, the report renderer, the generated viewer, the packaged skill, licensing, and that nothing private or secret slipped into the repo.
 
 ## Where it's at
 
-This is a working knowledge base, not a complete theory of design. Some valid findings will go past the current 37-entry set, and Tastemaker should say so without making up an ID. Motion can't be judged from a static screenshot, so use a live prototype or video when motion matters. A tasteful verdict also doesn't mean the design works or that it solves the right problem.
+The knowledge base covers a lot, but it's not a complete theory of design. Some real findings won't have an entry yet, and Tastemaker should say so instead of making up an ID. It can't judge motion from a static screenshot, so use a prototype or a video when motion matters. A good taste grade also doesn't mean the design works or that it's solving the right problem.
 
-Conflict findings and defended breaks only show up in chat right now. The Figma cards and HTML report don't render them yet. Next I'm running the new evals against the installed skill, starting with the one that checks whether scope mode actually cuts something.
+Conflict findings and defended breaks only show up in chat for now. The Figma cards and the HTML report don't show them yet. The next thing I'm doing is running the new evals against the installed skill, starting with the one that checks whether scope mode actually cuts something.
 
 ## License
 
