@@ -1,11 +1,12 @@
 # Tastemaker Knowledge Base — Index (the whole ladder)
 
-**Two knowledge bases, one ladder.** Tastemaker evaluates *and teaches* the full climb from measurable craft to design judgment:
+**Three knowledge bases, one ladder.** Tastemaker evaluates *and teaches* the full climb from measurable craft to design judgment, and decides what yields when principles collide:
 
 - **Taste principles** — `TS-NNN`, 12 entries across 11 categories, at the `kb/` root. The *judgment* layer (Characterful → Convicted rungs). Evaluated.
-- **Craft rules** — `CR-NNN`, 19 entries across 6 dimensions, under [`kb/craft/`](craft/_index.md). The *measurable* layer (the Coherent rung's teachable floor). Taught, with concrete fixes + eye-training.
+- **Craft rules** — `CR-NNN`, 20 entries across 6 dimensions, under [`kb/craft/`](craft/_index.md). The *measurable* layer (the Coherent rung's teachable floor). Taught, with concrete fixes + eye-training.
+- **Ranked trade-offs**: `TR-NNN`, 5 entries, under [`kb/tradeoffs/`](tradeoffs/_index.md). The *decision* layer: "X over Y, even when Y wins locally." Rankings sit beside the ladder and decide conflicts between principles and cuts in scope mode. Decided.
 
-Both were grown against real evaluation need and iterated through repeated design critiques. TS entries use a six-section body (Definition → Why It Matters → How to Evaluate → Exemplars → When to Flex → Sources). CR entries use a six-part body (Rule → Why → How to Spot → Fix → Eye-training → When to Flex).
+CR and TS entries were grown against real evaluation need and iterated through repeated design critiques; TR entries ship as seeds awaiting the same test. TS entries use a six-section body (Definition → Why It Matters → How to Evaluate → Exemplars → When to Flex → Sources). CR entries use a six-part body (Rule → Why → How to Spot → Fix → Eye-training → When to Flex). TR entries use a six-section body (Ranking, Why, How to Spot the Conflict, Exemplars, When It Flips, Sources).
 
 ---
 
@@ -35,7 +36,7 @@ Each rung assumes the one below it. **Grade = how close a design gets to its con
 The usability/clarity floor. ux-critique's domain. Tastemaker assumes it and does not re-litigate it.
 
 ### CRAFT FLOOR (the measurable base of Coherent) — *taught, not just judged*
-The 19 `CR-NNN` rules — spacing, type, color, shadow, alignment, density — are the measurable craft beneath Coherence. **Full sub-index: [`kb/craft/_index.md`](craft/_index.md).** These are *taught* (fix + rule + eye-training), not evaluated as judgment. A design that's incoherent in its craft (off-scale spacing, 8 type sizes, failing contrast) can't reach the taste rungs above — tighten craft first.
+The 20 `CR-NNN` rules — spacing, type, color, shadow, alignment, density — are the measurable craft beneath Coherence. **Full sub-index: [`kb/craft/_index.md`](craft/_index.md).** These are *taught* (fix + rule + eye-training), not evaluated as judgment. A design that's incoherent in its craft (off-scale spacing, 8 type sizes, failing contrast) can't reach the taste rungs above — tighten craft first.
 
 | Dimension | Entries |
 |-----------|---------|
@@ -43,7 +44,7 @@ The 19 `CR-NNN` rules — spacing, type, color, shadow, alignment, density — a
 | Type Hierarchy | CR-101…104 |
 | Color & Contrast | CR-201…204 |
 | Shadow & Elevation | CR-301…303 |
-| Alignment & Grid | CR-401…402 |
+| Alignment & Grid | CR-401…403 |
 | Density & Balance | CR-501…502 |
 
 ### COHERENT (rung 2) — "the parts agree; it's finished" — *where most TASTE findings live*
@@ -118,6 +119,19 @@ TS-005 Edge Cases ──complements── TS-004 Motion as Meaning              
 
 Cross-references to the ux-critique KB (`UX-NNN`): TS-003→UX-081, TS-005→UX-259. These mark where a taste principle extends a usability principle — the seam between the two skills.
 
+### Where the contrasts get decided
+
+The graph's `contrasts` edges, plus a few collisions it does not draw, are where principles meet on one surface and pull opposite ways. Ranked trade-offs decide those collisions, so a critique reports one conflict finding instead of citing both principles and splitting the difference:
+
+| Collision | Decided by |
+|-----------|------------|
+| TS-007 Earned Density vs. TS-010 Editing vs. Listing | TR-002 Editing over Completeness |
+| TS-011 Convention vs. TS-008 and brand expression | TR-004 Convention over Expression on High-Stakes, Low-Frequency Tasks |
+| TS-003 One-Thing Rule vs. pressure for equal weight | TR-003 One Primary Action over Parity of Options |
+| TS-001 Inevitability vs. TS-011 Convention, outside high-stakes surfaces | No ranking on file yet; decide on the merits and log a candidate |
+
+Full schema and status rules: [`kb/tradeoffs/_index.md`](tradeoffs/_index.md).
+
 ---
 
 ## Coverage Status
@@ -136,5 +150,6 @@ All 11 categories have at least one entry (Material Honesty has two in the motio
 - "Stage Your Best Moment" (Contextual Fit / Narrative) — 1 occurrence
 - "Honest Defaults" (Detail Conviction / Data Honesty) — 1 occurrence
 - "Emphasis Must Reach the Data" (Hierarchy & Intent) — 1 occurrence
+- "Principles Held Under Pressure" (Point of View, system scale; Convicted): proposed with system mode, 0 occurrences
 
 **Known input-mode gap:** TS-004 / TS-012 (motion) cannot be evaluated from static screenshots — needs a live/video input mode in the skill. This is the top remaining skill-level TODO.
